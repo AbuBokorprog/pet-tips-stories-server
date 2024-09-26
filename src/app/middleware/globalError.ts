@@ -3,7 +3,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextFunction, Request, Response } from 'express';
 import AppError from '../errors/AppError';
-import mongoose, { mongo } from 'mongoose';
+import { ZodError } from 'zod';
+import { ZodErrorHandler } from '../errors/zodError';
+import { TError } from '../interface/error.type';
+import config from '../config';
 
 export const globalErrorHandler = (
   err: any,
@@ -11,10 +14,15 @@ export const globalErrorHandler = (
   res: Response,
   next: NextFunction,
 ) => {
-  const status = 500;
-  const message = err.message || 'Something went wrong!';
-
-  console.log(err);
+  let status = 500;
+  let message = err.message || 'Something went wrong!';
+  let errorSource: TError[] = [];
+  if (err instanceof ZodError) {
+    const error = ZodErrorHandler(err);
+    status = error.statusCode;
+    message = error.message;
+    errorSource = error.errorSource;
+  }
 
   //   if (err instanceof AppError) {
   //     return res.status(err.statusCode).json({
@@ -24,9 +32,11 @@ export const globalErrorHandler = (
   //     });
   //   }
 
+  //   return error
   return res.status(status).json({
     success: false,
     message: message,
-    error: err,
+    errorSource: errorSource,
+    stack: config.node_env === 'development' ? err.stack : null,
   });
 };
