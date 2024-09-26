@@ -4,6 +4,8 @@
 import express, { Application, NextFunction, Request, Response } from 'express';
 import cors from 'cors';
 import router from './app/route';
+import { globalErrorHandler } from './app/middleware/globalError';
+import { notFoundError } from './app/middleware/notFoundError';
 // import { StudentRoutes } from './modules/students/student.route';
 const app: Application = express();
 
@@ -19,25 +21,9 @@ app.get('/', (req: Request, res: Response) => {
 });
 
 // global error
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-app.use((err: any, req: Request, res: Response, next: NextFunction) => {
-  const status = 500;
-  const message = err.message || 'Something went wrong!';
-
-  return res.status(status).json({
-    success: false,
-    message: message,
-    error: err,
-  });
-});
+app.use(globalErrorHandler);
 
 // notfound route handler
-app.use((req: Request, res: Response, next: NextFunction) => {
-  return res.status(400).json({
-    success: false,
-    message: 'API not found',
-    error: '',
-  });
-});
+app.use(notFoundError);
 
 export default app;
