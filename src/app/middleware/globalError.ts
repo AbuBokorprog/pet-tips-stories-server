@@ -7,6 +7,8 @@ import { ZodError } from 'zod';
 import { ZodErrorHandler } from '../errors/zodError';
 import { TError } from '../interface/error.type';
 import config from '../config';
+import mongoose from 'mongoose';
+import { mongooseValidationError } from '../errors/mongooseError';
 
 export const globalErrorHandler = (
   err: any,
@@ -17,11 +19,18 @@ export const globalErrorHandler = (
   let status = 500;
   let message = err.message || 'Something went wrong!';
   let errorSource: TError[] = [];
+
   if (err instanceof ZodError) {
     const error = ZodErrorHandler(err);
     status = error.statusCode;
     message = error.message;
     errorSource = error.errorSource;
+  } else if (err.name === 'validationError') {
+    const simplifiedError = mongooseValidationError(err);
+
+    status = simplifiedError.statusCode;
+    message = simplifiedError.message;
+    errorSource = simplifiedError.errorSource;
   }
 
   //   if (err instanceof AppError) {
