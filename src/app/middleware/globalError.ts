@@ -21,28 +21,33 @@ export const globalErrorHandler = (
   let message = err.message || 'Something went wrong!';
   let errorSource: TError[] = [];
 
+  // zod error
   if (err instanceof ZodError) {
     const error = ZodErrorHandler(err);
     status = error.statusCode;
     message = error.message;
     errorSource = error.errorSource;
+    // mongoose error
   } else if (err.name === 'validationError') {
     const simplifiedError = mongooseValidationError(err);
     status = simplifiedError.statusCode;
     message = simplifiedError.message;
     errorSource = simplifiedError.errorSource;
+
+    // cast error
   } else if (err.name === 'CastError') {
     const simplifiedError = CastErrorHandle(err);
     status = simplifiedError.statusCode;
     message = simplifiedError.message;
     errorSource = simplifiedError.errorSource;
+    // duplicate error
   } else if (err.code === 11000) {
     const simplifiedError = duplicateErrorHandle(err);
     status = simplifiedError.statusCode;
     message = simplifiedError.message;
     errorSource = simplifiedError.errorSource;
-  }
-  if (err instanceof AppError) {
+    // app error
+  } else if (err instanceof AppError) {
     status = err.statusCode;
     message = err?.message;
     errorSource = [
@@ -51,6 +56,7 @@ export const globalErrorHandler = (
         message: err?.message,
       },
     ];
+    // error
   } else if (err instanceof Error) {
     message = err?.message;
     errorSource = [
