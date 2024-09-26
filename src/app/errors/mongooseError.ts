@@ -17,7 +17,7 @@ export const mongooseValidationError = (
 
   return {
     statusCode: statusCode,
-    message: '',
+    message: 'Mongoose validation error',
     errorSource: errorSource,
   };
 };

@@ -7,8 +7,9 @@ import { ZodError } from 'zod';
 import { ZodErrorHandler } from '../errors/zodError';
 import { TError } from '../interface/error.type';
 import config from '../config';
-import mongoose from 'mongoose';
 import { mongooseValidationError } from '../errors/mongooseError';
+import { CastErrorHandle } from '../errors/castError';
+import { duplicateErrorHandle } from '../errors/duplicateError';
 
 export const globalErrorHandler = (
   err: any,
@@ -27,19 +28,38 @@ export const globalErrorHandler = (
     errorSource = error.errorSource;
   } else if (err.name === 'validationError') {
     const simplifiedError = mongooseValidationError(err);
-
+    status = simplifiedError.statusCode;
+    message = simplifiedError.message;
+    errorSource = simplifiedError.errorSource;
+  } else if (err.name === 'CastError') {
+    const simplifiedError = CastErrorHandle(err);
+    status = simplifiedError.statusCode;
+    message = simplifiedError.message;
+    errorSource = simplifiedError.errorSource;
+  } else if (err.code === 11000) {
+    const simplifiedError = duplicateErrorHandle(err);
     status = simplifiedError.statusCode;
     message = simplifiedError.message;
     errorSource = simplifiedError.errorSource;
   }
-
-  //   if (err instanceof AppError) {
-  //     return res.status(err.statusCode).json({
-  //       success: false,
-  //       message: err.message,
-  //       error: err.stack,
-  //     });
-  //   }
+  if (err instanceof AppError) {
+    status = err.statusCode;
+    message = err?.message;
+    errorSource = [
+      {
+        path: '',
+        message: err?.message,
+      },
+    ];
+  } else if (err instanceof Error) {
+    message = err?.message;
+    errorSource = [
+      {
+        path: '',
+        message: err?.message,
+      },
+    ];
+  }
 
   //   return error
   return res.status(status).json({
