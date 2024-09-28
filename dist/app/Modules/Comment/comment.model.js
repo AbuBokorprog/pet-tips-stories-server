@@ -4,14 +4,14 @@ exports.commentModel = void 0;
 const mongoose_1 = require("mongoose");
 const commentSchema = new mongoose_1.Schema({
     authorId: {
-        types: mongoose_1.Schema.Types.ObjectId,
+        type: mongoose_1.Schema.Types.ObjectId,
         required: true,
-        ref: 'User',
+        ref: 'user',
     },
     postId: {
-        types: mongoose_1.Schema.Types.ObjectId,
+        type: mongoose_1.Schema.Types.ObjectId,
         required: true,
-        ref: 'Post',
+        ref: 'post',
     },
     content: {
         type: String,

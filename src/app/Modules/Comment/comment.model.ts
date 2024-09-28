@@ -4,14 +4,14 @@ import { IComment } from './comment.interface';
 const commentSchema = new Schema<IComment>(
   {
     authorId: {
-      types: Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       required: true,
-      ref: 'User',
+      ref: 'user',
     },
     postId: {
-      types: Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       required: true,
-      ref: 'Post',
+      ref: 'post',
     },
     content: {
       type: String,
@@ -23,4 +23,4 @@ const commentSchema = new Schema<IComment>(
   },
 );
 
-export const commentModel = model<IComment>('comment', commentSchema);
+export const commentModel = model('comment', commentSchema);
