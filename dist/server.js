@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
 const app_1 = __importDefault(require("./app"));
 const config_1 = __importDefault(require("./app/config"));
+const seed_1 = require("./app/seed");
 let server;
 async function main() {
     try {
@@ -13,6 +14,7 @@ async function main() {
         app_1.default.listen(config_1.default.port, () => {
             console.log(`Server successfully running on port ${config_1.default.port}`);
         });
+        await (0, seed_1.AdminSeed)();
     }
     catch (err) {
         console.log(err);

@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 import app from './app';
 import config from './app/config';
 import { Server } from 'http';
+import { AdminSeed } from './app/seed';
 
 let server: Server;
 
@@ -11,6 +12,8 @@ async function main() {
     app.listen(config.port, () => {
       console.log(`Server successfully running on port ${config.port}`);
     });
+
+    await AdminSeed();
   } catch (err) {
     console.log(err as string);
   }
