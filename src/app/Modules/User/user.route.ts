@@ -6,6 +6,8 @@ import {
 } from './user.validation';
 import { userController } from './user.controller';
 import { validationRequest } from '../../utils/validationRequest';
+import { Auth } from '../../middleware/auth';
+import { userRoles } from './user.utils';
 const route = express.Router();
 
 route.post(
@@ -22,13 +24,22 @@ route.post(
 
 route.put(
   '/:id',
+  Auth(userRoles.ADMIN, userRoles.USER),
   validationRequest(updateUserValidation),
   userController.updateUser,
 );
 
-route.delete('/:id', userController.deleteUser);
+route.delete('/:id', Auth(userRoles.ADMIN), userController.deleteUser);
 
-route.post('/:id/follow', userController.followUser);
-route.post('/:id/unfollow', userController.unFollowUser);
+route.patch(
+  '/:id/follow',
+  Auth(userRoles.ADMIN, userRoles.USER),
+  userController.followUser,
+);
+route.patch(
+  '/:id/unfollow',
+  Auth(userRoles.ADMIN, userRoles.USER),
+  userController.unFollowUser,
+);
 
 export const userRouter = route;
