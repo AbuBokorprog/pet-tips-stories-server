@@ -14,6 +14,17 @@ const createUser = catchAsync(async (req, res) => {
   });
 });
 
+const userLogin = catchAsync(async (req, res) => {
+  const data = await userServices.userLogin(req.body);
+
+  successResponse(res, {
+    statusCode: httpStatus.CREATED,
+    success: true,
+    message: 'User logged in successfully',
+    data: data,
+  });
+});
+
 const updateUser = catchAsync(async (req, res) => {
   const user = await userServices.updateUser(req.params.id, req.body);
 
@@ -66,6 +77,7 @@ const unFollowUser = catchAsync(async (req, res) => {
 
 export const userController = {
   createUser,
+  userLogin,
   updateUser,
   deleteUser,
   followUser,

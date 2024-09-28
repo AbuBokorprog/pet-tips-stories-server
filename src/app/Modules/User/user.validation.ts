@@ -19,3 +19,8 @@ export const updateUserValidation = z.object({
   password: z.string().optional(),
   role: z.enum(['admin', 'user']).optional(),
 });
+
+export const loginValidationSchema = z.object({
+  email: z.string().email(),
+  password: z.string(),
+});

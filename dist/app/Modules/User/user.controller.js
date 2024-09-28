@@ -17,6 +17,15 @@ const createUser = (0, catchAsync_1.catchAsync)(async (req, res) => {
         data: user,
     });
 });
+const userLogin = (0, catchAsync_1.catchAsync)(async (req, res) => {
+    const data = await user_services_1.userServices.userLogin(req.body);
+    (0, successRespon_1.default)(res, {
+        statusCode: http_status_1.default.CREATED,
+        success: true,
+        message: 'User logged in successfully',
+        data: data,
+    });
+});
 const updateUser = (0, catchAsync_1.catchAsync)(async (req, res) => {
     const user = await user_services_1.userServices.updateUser(req.params.id, req.body);
     (0, successRespon_1.default)(res, {
@@ -55,6 +64,7 @@ const unFollowUser = (0, catchAsync_1.catchAsync)(async (req, res) => {
 });
 exports.userController = {
     createUser,
+    userLogin,
     updateUser,
     deleteUser,
     followUser,
