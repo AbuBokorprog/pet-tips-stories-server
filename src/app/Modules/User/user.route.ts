@@ -1,11 +1,11 @@
 import express from 'express';
 import { createUserValidation, updateUserValidation } from './user.validation';
 import { userController } from './user.controller';
-import { validationRequest } from '../../app/utils/validationRequest';
+import { validationRequest } from '../../utils/validationRequest';
 const route = express.Router();
 
 route.post(
-  '/auth/register',
+  '/register',
   validationRequest(createUserValidation),
   userController.createUser,
 );

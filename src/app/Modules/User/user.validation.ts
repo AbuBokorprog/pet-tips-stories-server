@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 export const createUserValidation = z.object({
-  name: z.string({
+  username: z.string({
     required_error: 'Name is required',
   }),
   email: z.string({
@@ -14,7 +14,7 @@ export const createUserValidation = z.object({
 });
 
 export const updateUserValidation = z.object({
-  name: z.string().optional(),
+  username: z.string().optional(),
   email: z.string().optional(),
   password: z.string().optional(),
   role: z.enum(['admin', 'user']).optional(),

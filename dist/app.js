@@ -12,10 +12,15 @@ const route_1 = __importDefault(require("./app/route"));
 const globalError_1 = require("./app/middleware/globalError");
 const notFoundError_1 = require("./app/middleware/notFoundError");
 const app = (0, express_1.default)();
+const cookie_parser_1 = __importDefault(require("cookie-parser"));
 app.use(express_1.default.json());
-app.use((0, cors_1.default)());
+app.use((0, cookie_parser_1.default)());
+app.use((0, cors_1.default)({
+    origin: [''],
+    credentials: true,
+}));
 // application routes
-app.use(route_1.default);
+app.use('/api', route_1.default);
 app.get('/', (req, res) => {
     res.send('Project setup home page');
 });
