@@ -1,12 +1,14 @@
+import httpStatus from 'http-status';
+import AppError from '../../errors/AppError';
 import { IPost } from './post.interface';
 import { postModel } from './post.model';
 
 const createPost = async (payload: IPost) => {
   const res = await postModel.create(payload);
 
-  //   if(!res) {
-  //     throw new AppError(httpStatus.BAD_REQUEST, 'Post created failed!')
-  //   }
+  if (!res) {
+    throw new AppError(httpStatus.BAD_REQUEST, 'Post created failed!');
+  }
 
   return res;
 };
@@ -22,6 +24,8 @@ const specificPost = async (id: string) => {
 
   return res;
 };
+
+// const votePost = async (id: string) => {};
 
 const updatePost = async (id: string, payload: Partial<IPost>) => {
   const res = await postModel.findByIdAndUpdate(id, payload, {
@@ -43,4 +47,5 @@ export const postServices = {
   updatePost,
   deletePost,
   specificPost,
+  //   votePost,
 };
