@@ -7,13 +7,19 @@ import router from './app/route';
 import { globalErrorHandler } from './app/middleware/globalError';
 import { notFoundError } from './app/middleware/notFoundError';
 const app: Application = express();
+import cookieParser from 'cookie-parser';
 
 app.use(express.json());
-app.use(cors());
+app.use(cookieParser());
+app.use(
+  cors({
+    origin: [''],
+    credentials: true,
+  }),
+);
 
 // application routes
-
-app.use(router);
+app.use('/api', router);
 
 app.get('/', (req: Request, res: Response) => {
   res.send('Project setup home page');
