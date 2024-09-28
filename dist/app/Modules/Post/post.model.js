@@ -48,5 +48,7 @@ const postSchema = new mongoose_1.Schema({
         type: Number,
         default: null,
     },
+}, {
+    timestamps: true,
 });
-exports.postModel = (0, mongoose_1.model)('post', postSchema);
+exports.postModel = (0, mongoose_1.model)('Post', postSchema);
