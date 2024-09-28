@@ -2,6 +2,7 @@ import httpStatus from 'http-status';
 import { catchAsync } from '../../utils/catchAsync';
 import successResponse from '../../utils/successRespon';
 import { userServices } from './user.services';
+import config from '../../config';
 
 const createUser = catchAsync(async (req, res) => {
   const user = await userServices.createUser(req.body);
@@ -16,6 +17,11 @@ const createUser = catchAsync(async (req, res) => {
 
 const userLogin = catchAsync(async (req, res) => {
   const data = await userServices.userLogin(req.body);
+
+  res.cookie('refreshToken', data.refreshToken, {
+    secure: config.node_env === 'production',
+    httpOnly: true,
+  });
 
   successResponse(res, {
     statusCode: httpStatus.CREATED,

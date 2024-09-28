@@ -8,6 +8,7 @@ const http_status_1 = __importDefault(require("http-status"));
 const catchAsync_1 = require("../../utils/catchAsync");
 const successRespon_1 = __importDefault(require("../../utils/successRespon"));
 const user_services_1 = require("./user.services");
+const config_1 = __importDefault(require("../../config"));
 const createUser = (0, catchAsync_1.catchAsync)(async (req, res) => {
     const user = await user_services_1.userServices.createUser(req.body);
     (0, successRespon_1.default)(res, {
@@ -19,6 +20,10 @@ const createUser = (0, catchAsync_1.catchAsync)(async (req, res) => {
 });
 const userLogin = (0, catchAsync_1.catchAsync)(async (req, res) => {
     const data = await user_services_1.userServices.userLogin(req.body);
+    res.cookie('refreshToken', data.refreshToken, {
+        secure: config_1.default.node_env === 'production',
+        httpOnly: true,
+    });
     (0, successRespon_1.default)(res, {
         statusCode: http_status_1.default.CREATED,
         success: true,
