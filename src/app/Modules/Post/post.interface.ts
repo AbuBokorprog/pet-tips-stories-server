@@ -10,5 +10,6 @@ export interface IPost {
   downVotes: Types.ObjectId[];
   premium: boolean;
   price: number;
+  tran_id: string | null;
   comments: Types.ObjectId[];
 }

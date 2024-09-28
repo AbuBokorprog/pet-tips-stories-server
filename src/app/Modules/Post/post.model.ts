@@ -48,6 +48,10 @@ const postSchema = new Schema<IPost>(
       type: Number,
       default: null,
     },
+    tran_id: {
+      type: String,
+      default: null,
+    },
   },
   {
     timestamps: true,

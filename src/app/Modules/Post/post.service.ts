@@ -10,6 +10,11 @@ const createPost = async (payload: IPost) => {
     throw new AppError(httpStatus.BAD_REQUEST, 'Post created failed!');
   }
 
+  if (res && payload.premium === true) {
+    payload.price = 100;
+    // payload.tran_id = `tsx-${res?._id}-${Date.now()}`;
+  }
+
   return res;
 };
 

@@ -12,6 +12,10 @@ const createPost = async (payload) => {
     if (!res) {
         throw new AppError_1.default(http_status_1.default.BAD_REQUEST, 'Post created failed!');
     }
+    if (res && payload.premium === true) {
+        payload.price = 100;
+        // payload.tran_id = `tsx-${res?._id}-${Date.now()}`;
+    }
     return res;
 };
 const retrieveAllPosts = async () => {

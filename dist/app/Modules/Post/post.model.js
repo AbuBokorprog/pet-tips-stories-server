@@ -48,6 +48,10 @@ const postSchema = new mongoose_1.Schema({
         type: Number,
         default: null,
     },
+    tran_id: {
+        type: String,
+        default: null,
+    },
 }, {
     timestamps: true,
 });
