@@ -36,7 +36,8 @@ const replyComment = catchAsync(async (req, res) => {
 });
 
 const retrieveComment = catchAsync(async (req, res) => {
-  const data = await commentServices.retrieveComment();
+  const { id } = req.params;
+  const data = await commentServices.retrieveComments(id);
 
   successResponse(res, {
     success: true,

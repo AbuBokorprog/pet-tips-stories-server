@@ -22,6 +22,11 @@ const commentSchema = new Schema<IComment>(
       ref: 'comment',
       default: [],
     },
+    replies: {
+      type: [Schema.Types.ObjectId],
+      ref: 'comment',
+      default: [],
+    },
   },
   {
     timestamps: true,

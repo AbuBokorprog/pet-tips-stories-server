@@ -5,4 +5,5 @@ export interface IComment {
   postId: Types.ObjectId;
   content: string;
   parentComment: Types.ObjectId[];
+  replies: Types.ObjectId[];
 }

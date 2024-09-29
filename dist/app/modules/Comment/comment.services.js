@@ -49,6 +49,9 @@ const replyComment = async (userId, parentCommentId, payload) => {
         payload.authorId = id;
         payload.parentComment = [isExistParentComment._id];
         const res = await comment_model_1.commentModel.create([payload], { session });
+        await comment_model_1.commentModel.findByIdAndUpdate(parentCommentId, {
+            $push: { replies: res[0]._id },
+        });
         await post_model_1.postModel.findByIdAndUpdate(payload.postId, {
             $addToSet: { comments: res[0]._id },
         });
@@ -62,14 +65,19 @@ const replyComment = async (userId, parentCommentId, payload) => {
         throw new AppError_1.default(http_status_1.default.BAD_REQUEST, 'Comment created failed!');
     }
 };
-const retrieveComment = async () => {
+const retrieveComments = async (postId) => {
     const res = await comment_model_1.commentModel
-        .find()
-        .populate('parentComment')
-        .populate('postId')
-        .populate('authorId');
+        .find({ postId, parentComment: null }) // Top-level comments
+        .populate({
+        path: 'replies',
+        populate: {
+            path: 'replies', // Populate nested replies recursively
+        },
+    })
+        .populate('authorId')
+        .exec();
     if (!res) {
-        throw new AppError_1.default(http_status_1.default.BAD_REQUEST, 'Comment retrieved failed!');
+        throw new AppError_1.default(http_status_1.default.BAD_REQUEST, 'Comments retrieved failed!');
     }
     return res;
 };
@@ -92,7 +100,7 @@ const deleteComment = async (id) => {
 };
 exports.commentServices = {
     createComment,
-    retrieveComment,
+    retrieveComments,
     updateComment,
     deleteComment,
     replyComment,

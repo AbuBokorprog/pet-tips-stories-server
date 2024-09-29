@@ -32,7 +32,8 @@ const replyComment = (0, catchAsync_1.catchAsync)(async (req, res) => {
     });
 });
 const retrieveComment = (0, catchAsync_1.catchAsync)(async (req, res) => {
-    const data = await comment_services_1.commentServices.retrieveComment();
+    const { id } = req.params;
+    const data = await comment_services_1.commentServices.retrieveComments(id);
     (0, successRespon_1.default)(res, {
         success: true,
         statusCode: http_status_1.default.CREATED,

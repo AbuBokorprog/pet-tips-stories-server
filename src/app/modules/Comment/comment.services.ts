@@ -57,7 +57,12 @@ const replyComment = async (
     const id = new Types.ObjectId(userId);
     payload.authorId = id;
     payload.parentComment = [isExistParentComment._id];
+
     const res = await commentModel.create([payload], { session });
+
+    await commentModel.findByIdAndUpdate(parentCommentId, {
+      $push: { replies: res[0]._id },
+    });
 
     await postModel.findByIdAndUpdate(payload.postId, {
       $addToSet: { comments: res[0]._id },
@@ -73,15 +78,20 @@ const replyComment = async (
   }
 };
 
-const retrieveComment = async () => {
+const retrieveComments = async (postId: string) => {
   const res = await commentModel
-    .find()
-    .populate('parentComment')
-    .populate('postId')
-    .populate('authorId');
+    .find({ postId, parentComment: null }) // Top-level comments
+    .populate({
+      path: 'replies',
+      populate: {
+        path: 'replies', // Populate nested replies recursively
+      },
+    })
+    .populate('authorId')
+    .exec();
 
   if (!res) {
-    throw new AppError(httpStatus.BAD_REQUEST, 'Comment retrieved failed!');
+    throw new AppError(httpStatus.BAD_REQUEST, 'Comments retrieved failed!');
   }
 
   return res;
@@ -111,7 +121,7 @@ const deleteComment = async (id: string) => {
 
 export const commentServices = {
   createComment,
-  retrieveComment,
+  retrieveComments,
   updateComment,
   deleteComment,
   replyComment,

@@ -21,7 +21,7 @@ route.post(
 );
 
 route.get(
-  '/',
+  '/:id',
   Auth(userRoles.ADMIN, userRoles.USER),
   commentController.retrieveComment,
 );
