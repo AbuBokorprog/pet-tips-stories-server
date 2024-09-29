@@ -7,38 +7,7 @@ exports.userServices = void 0;
 const http_status_1 = __importDefault(require("http-status"));
 const AppError_1 = __importDefault(require("../../errors/AppError"));
 const user_model_1 = require("./user.model");
-const bcrypt_1 = __importDefault(require("bcrypt"));
-const config_1 = __importDefault(require("../../config"));
-const user_utils_1 = require("./user.utils");
 const mongoose_1 = require("mongoose");
-const createUser = async (payload) => {
-    const user = await user_model_1.userModel.create(payload);
-    return user;
-};
-const userLogin = async (payload) => {
-    const isUserExit = await user_model_1.userModel.findOne({ email: payload.email });
-    if (!isUserExit) {
-        throw new AppError_1.default(http_status_1.default.NOT_FOUND, 'The user not found!');
-    }
-    const isMatched = bcrypt_1.default.compare(payload.password, isUserExit.password);
-    if (!isMatched) {
-        throw new AppError_1.default(http_status_1.default.UNAUTHORIZED, 'Password incorrect, please try again!');
-    }
-    const jwtPayload = {
-        email: isUserExit.email,
-        role: isUserExit.role,
-        _id: isUserExit?._id,
-        username: isUserExit.username,
-        profilePicture: isUserExit?.profilePicture,
-    };
-    const accessToken = (0, user_utils_1.createToken)(jwtPayload, config_1.default.access_secret, config_1.default.access_expires);
-    const refreshToken = (0, user_utils_1.createToken)(jwtPayload, config_1.default.refresh_secret, config_1.default.refresh_expires);
-    return {
-        accessToken,
-        refreshToken,
-        user: isUserExit,
-    };
-};
 const retrievedMe = async (id) => {
     const res = await user_model_1.userModel
         .findById(id)
@@ -119,8 +88,6 @@ const unFollowUser = async (followerId, followedId) => {
     }
 };
 exports.userServices = {
-    createUser,
-    userLogin,
     updateUser,
     deleteUser,
     followUser,
