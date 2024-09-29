@@ -8,7 +8,7 @@ const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const catchAsync_1 = require("../utils/catchAsync");
 const AppError_1 = __importDefault(require("../errors/AppError"));
 const http_status_1 = __importDefault(require("http-status"));
-const user_model_1 = require("../Modules/User/user.model");
+const user_model_1 = require("../modules/User/user.model");
 const config_1 = __importDefault(require("../config"));
 const Auth = (...roles) => {
     return (0, catchAsync_1.catchAsync)(async (req, res, next) => {

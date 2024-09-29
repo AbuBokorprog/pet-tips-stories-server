@@ -3,7 +3,7 @@ import { NextFunction, Request, Response } from 'express';
 import { catchAsync } from '../utils/catchAsync';
 import AppError from '../errors/AppError';
 import httpStatus from 'http-status';
-import { userModel } from '../Modules/User/user.model';
+import { userModel } from '../modules/User/user.model';
 import config from '../config';
 
 export const Auth = (...roles: string[]) => {

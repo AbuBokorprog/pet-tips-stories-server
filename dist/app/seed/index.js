@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AdminSeed = void 0;
 const config_1 = __importDefault(require("../config"));
-const user_model_1 = require("../Modules/User/user.model");
+const user_model_1 = require("../modules/User/user.model");
 const adminUser = {
     username: 'Super Admin',
     email: config_1.default.admin_email,

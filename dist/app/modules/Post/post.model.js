@@ -52,6 +52,15 @@ const postSchema = new mongoose_1.Schema({
         type: String,
         default: null,
     },
+    paymentStatus: {
+        type: String,
+        enum: ['Pending', 'Success'],
+        default: 'Pending',
+    },
+    isPaymentSuccessful: {
+        type: Boolean,
+        default: false,
+    },
 }, {
     timestamps: true,
 });

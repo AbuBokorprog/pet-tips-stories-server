@@ -12,4 +12,6 @@ export interface IPost {
   price: number;
   tran_id: string | null;
   comments: Types.ObjectId[];
+  paymentStatus: 'Pending' | 'Success';
+  isPaymentSuccessful: boolean;
 }

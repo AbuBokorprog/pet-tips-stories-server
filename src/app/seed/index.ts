@@ -1,5 +1,5 @@
 import config from '../config';
-import { userModel } from '../Modules/User/user.model';
+import { userModel } from '../modules/User/user.model';
 
 const adminUser = {
   username: 'Super Admin',
