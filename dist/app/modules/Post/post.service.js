@@ -9,6 +9,8 @@ const AppError_1 = __importDefault(require("../../errors/AppError"));
 const post_model_1 = require("./post.model");
 const mongoose_1 = require("mongoose");
 const user_model_1 = require("../User/user.model");
+const queryBuilder_1 = require("../../builder/queryBuilder");
+const post_constants_1 = require("./post.constants");
 const createPost = async (id, payload) => {
     const session = await (0, mongoose_1.startSession)();
     const isExistUser = await user_model_1.userModel.findById(id);
@@ -38,14 +40,25 @@ const createPost = async (id, payload) => {
         await session.endSession();
     }
 };
-const retrieveAllPosts = async () => {
-    const res = await post_model_1.postModel
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const retrieveAllPosts = async (query) => {
+    const allPosts = new queryBuilder_1.QueryBuilder(post_model_1.postModel
         .find()
         .populate('authorId')
         .populate('comments')
         .populate('downVotes')
-        .populate('upVotes');
-    return res;
+        .populate('upVotes'), query)
+        .search(post_constants_1.searchableFields)
+        .filter()
+        .sort()
+        .paginate()
+        .fields();
+    const data = await allPosts.modelQuery;
+    const meta = await allPosts.countTotal();
+    return {
+        data,
+        meta,
+    };
 };
 const specificPost = async (id) => {
     const res = await post_model_1.postModel

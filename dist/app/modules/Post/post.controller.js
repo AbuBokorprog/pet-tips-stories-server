@@ -19,7 +19,7 @@ const createPost = (0, catchAsync_1.catchAsync)(async (req, res) => {
     });
 });
 const retrieveAllPosts = (0, catchAsync_1.catchAsync)(async (req, res) => {
-    const data = await post_service_1.postServices.retrieveAllPosts();
+    const data = await post_service_1.postServices.retrieveAllPosts(req.query);
     (0, successRespon_1.default)(res, {
         success: true,
         statusCode: http_status_1.default.OK,

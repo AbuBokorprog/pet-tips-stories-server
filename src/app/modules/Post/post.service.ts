@@ -4,6 +4,8 @@ import { IPost } from './post.interface';
 import { postModel } from './post.model';
 import { startSession, Types } from 'mongoose';
 import { userModel } from '../User/user.model';
+import { QueryBuilder } from '../../builder/queryBuilder';
+import { searchableFields } from './post.constants';
 
 const createPost = async (id: string, payload: IPost) => {
   const session = await startSession();
@@ -44,15 +46,30 @@ const createPost = async (id: string, payload: IPost) => {
   }
 };
 
-const retrieveAllPosts = async () => {
-  const res = await postModel
-    .find()
-    .populate('authorId')
-    .populate('comments')
-    .populate('downVotes')
-    .populate('upVotes');
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const retrieveAllPosts = async (query: any) => {
+  const allPosts = new QueryBuilder(
+    postModel
+      .find()
+      .populate('authorId')
+      .populate('comments')
+      .populate('downVotes')
+      .populate('upVotes'),
+    query,
+  )
+    .search(searchableFields)
+    .filter()
+    .sort()
+    .paginate()
+    .fields();
 
-  return res;
+  const data = await allPosts.modelQuery;
+  const meta = await allPosts.countTotal();
+
+  return {
+    data,
+    meta,
+  };
 };
 
 const specificPost = async (id: string) => {
