@@ -5,6 +5,7 @@ import { userModel } from './user.model';
 import bcrypt from 'bcrypt';
 import config from '../../config';
 import { createToken } from './user.utils';
+import { startSession } from 'mongoose';
 const createUser = async (payload: IUser) => {
   const user = await userModel.create(payload);
   return user;
@@ -74,33 +75,76 @@ const deleteUser = async (id: string) => {
 };
 
 const followUser = async (followerId: string, followedId: string) => {
+  const session = await startSession();
+
   // !follower id is Who wants to follow, and
   // !followedId is who is being followed.
 
-  // * who wants to follow.
-  await userModel.findByIdAndUpdate(followerId, {
-    $addToSet: { following: followedId },
-  });
+  try {
+    session.startTransaction();
+    // * who wants to follow.
+    const data = await userModel.findByIdAndUpdate(
+      followerId,
+      {
+        $addToSet: { following: followedId },
+      },
+      { new: true, runValidators: true, session },
+    );
 
-  // * who is being followed.
-  await userModel.findByIdAndUpdate(followedId, {
-    $addToSet: { followers: followerId },
-  });
+    // * who is being followed.
+    await userModel.findByIdAndUpdate(
+      followedId,
+      {
+        $addToSet: { followers: followerId },
+      },
+      { new: true, runValidators: true, session },
+    );
+
+    session.commitTransaction();
+    session.endSession();
+    return data;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+    session.abortTransaction();
+    session.endSession();
+    throw new AppError(httpStatus.BAD_REQUEST, error.message as string);
+  }
 };
 
 const unFollowUser = async (followerId: string, followedId: string) => {
+  const session = await startSession();
   // !followerId is Who wants to unfollow, and
   // !followedId is who is being unfollowed.
 
-  // *followerId is Who wants to unfollow.
-  await userModel.findByIdAndUpdate(followerId, {
-    $pull: { following: followedId },
-  });
+  try {
+    session.startTransaction();
+    // *followerId is Who wants to unfollow.
+    const data = await userModel.findByIdAndUpdate(
+      followerId,
+      {
+        $pull: { following: followedId },
+      },
+      { new: true, runValidators: true, session },
+    );
 
-  // *followedId is who is being unfollowed.
-  await userModel.findByIdAndUpdate(followedId, {
-    $pull: { followers: followerId },
-  });
+    // *followedId is who is being unfollowed.
+    await userModel.findByIdAndUpdate(
+      followedId,
+      {
+        $pull: { followers: followerId },
+      },
+      { new: true, runValidators: true, session },
+    );
+
+    session.commitTransaction();
+    session.endSession();
+    return data;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+    session.abortTransaction();
+    session.endSession();
+    throw new AppError(httpStatus.BAD_REQUEST, error.message as string);
+  }
 };
 
 export const userServices = {
