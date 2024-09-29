@@ -1,12 +1,12 @@
-import { Schema } from 'mongoose';
+import { Types } from 'mongoose';
 
 export interface IUser {
   username: string;
   email: string;
   password: string;
   profilePicture?: string;
-  followers: Schema.Types.ObjectId[];
-  following: Schema.Types.ObjectId[];
-  posts: Schema.Types.ObjectId[];
+  followers: Types.ObjectId[];
+  following: Types.ObjectId[];
+  posts: Types.ObjectId[];
   role: 'user' | 'admin';
 }

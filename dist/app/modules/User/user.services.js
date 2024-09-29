@@ -56,6 +56,11 @@ const deleteUser = async (id) => {
 };
 const followUser = async (followerId, followedId) => {
     const session = await (0, mongoose_1.startSession)();
+    const isExistUser = await user_model_1.userModel.findById(followerId);
+    const isAlreadyFollow = isExistUser?.following.includes(followedId);
+    if (isAlreadyFollow) {
+        throw new AppError_1.default(http_status_1.default.ALREADY_REPORTED, 'Already following!');
+    }
     // !follower id is Who wants to follow, and
     // !followedId is who is being followed.
     try {
@@ -68,19 +73,24 @@ const followUser = async (followerId, followedId) => {
         await user_model_1.userModel.findByIdAndUpdate(followedId, {
             $addToSet: { followers: followerId },
         }, { new: true, runValidators: true, session });
-        session.commitTransaction();
-        session.endSession();
+        await session.commitTransaction();
+        await session.endSession();
         return data;
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
     }
     catch (error) {
-        session.abortTransaction();
-        session.endSession();
+        await session.abortTransaction();
+        await session.endSession();
         throw new AppError_1.default(http_status_1.default.BAD_REQUEST, error.message);
     }
 };
 const unFollowUser = async (followerId, followedId) => {
     const session = await (0, mongoose_1.startSession)();
+    const isExistUser = await user_model_1.userModel.findById(followerId);
+    const isAlreadyFollow = isExistUser?.following.includes(followedId);
+    if (!isAlreadyFollow) {
+        throw new AppError_1.default(http_status_1.default.ALREADY_REPORTED, 'You are not following yet!');
+    }
     // !followerId is Who wants to unfollow, and
     // !followedId is who is being unfollowed.
     try {
@@ -93,14 +103,14 @@ const unFollowUser = async (followerId, followedId) => {
         await user_model_1.userModel.findByIdAndUpdate(followedId, {
             $pull: { followers: followerId },
         }, { new: true, runValidators: true, session });
-        session.commitTransaction();
-        session.endSession();
+        await session.commitTransaction();
+        await session.endSession();
         return data;
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
     }
     catch (error) {
-        session.abortTransaction();
-        session.endSession();
+        await session.abortTransaction();
+        await session.endSession();
         throw new AppError_1.default(http_status_1.default.BAD_REQUEST, error.message);
     }
 };

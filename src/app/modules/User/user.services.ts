@@ -5,7 +5,7 @@ import { userModel } from './user.model';
 import bcrypt from 'bcrypt';
 import config from '../../config';
 import { createToken } from './user.utils';
-import { startSession } from 'mongoose';
+import { startSession, Types } from 'mongoose';
 const createUser = async (payload: IUser) => {
   const user = await userModel.create(payload);
   return user;
@@ -74,8 +74,18 @@ const deleteUser = async (id: string) => {
   return user;
 };
 
-const followUser = async (followerId: string, followedId: string) => {
+const followUser = async (
+  followerId: Types.ObjectId,
+  followedId: Types.ObjectId,
+) => {
   const session = await startSession();
+  const isExistUser = await userModel.findById(followerId);
+
+  const isAlreadyFollow = isExistUser?.following.includes(followedId);
+
+  if (isAlreadyFollow) {
+    throw new AppError(httpStatus.ALREADY_REPORTED, 'Already following!');
+  }
 
   // !follower id is Who wants to follow, and
   // !followedId is who is being followed.
@@ -100,19 +110,35 @@ const followUser = async (followerId: string, followedId: string) => {
       { new: true, runValidators: true, session },
     );
 
-    session.commitTransaction();
-    session.endSession();
+    await session.commitTransaction();
+    await session.endSession();
     return data;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
-    session.abortTransaction();
-    session.endSession();
+    await session.abortTransaction();
+    await session.endSession();
+
     throw new AppError(httpStatus.BAD_REQUEST, error.message as string);
   }
 };
 
-const unFollowUser = async (followerId: string, followedId: string) => {
+const unFollowUser = async (
+  followerId: Types.ObjectId,
+  followedId: Types.ObjectId,
+) => {
   const session = await startSession();
+
+  const isExistUser = await userModel.findById(followerId);
+
+  const isAlreadyFollow = isExistUser?.following.includes(followedId);
+
+  if (!isAlreadyFollow) {
+    throw new AppError(
+      httpStatus.ALREADY_REPORTED,
+      'You are not following yet!',
+    );
+  }
+
   // !followerId is Who wants to unfollow, and
   // !followedId is who is being unfollowed.
 
@@ -136,13 +162,13 @@ const unFollowUser = async (followerId: string, followedId: string) => {
       { new: true, runValidators: true, session },
     );
 
-    session.commitTransaction();
-    session.endSession();
+    await session.commitTransaction();
+    await session.endSession();
     return data;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
-    session.abortTransaction();
-    session.endSession();
+    await session.abortTransaction();
+    await session.endSession();
     throw new AppError(httpStatus.BAD_REQUEST, error.message as string);
   }
 };

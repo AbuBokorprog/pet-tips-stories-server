@@ -11,15 +11,21 @@ import { userRoles } from './user.utils';
 const route = express.Router();
 
 route.post(
-  '/register',
+  '/auth/register',
   validationRequest(createUserValidation),
   userController.createUser,
 );
 
 route.post(
-  '/login',
+  '/auth/login',
   validationRequest(loginValidationSchema),
   userController.userLogin,
+);
+
+route.get(
+  '/me',
+  Auth(userRoles.ADMIN, userRoles.USER),
+  userController.retrievedMe,
 );
 
 route.put(

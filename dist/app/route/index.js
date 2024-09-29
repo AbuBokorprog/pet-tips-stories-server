@@ -11,7 +11,7 @@ const payment_route_1 = require("../modules/Payment/payment.route");
 const router = express_1.default.Router();
 const moduleRoutes = [
     {
-        path: '/auth',
+        path: '/user',
         route: user_route_1.userRouter,
     },
     {
