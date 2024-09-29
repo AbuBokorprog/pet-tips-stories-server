@@ -8,6 +8,30 @@ const http_status_1 = __importDefault(require("http-status"));
 const AppError_1 = __importDefault(require("../../errors/AppError"));
 const user_model_1 = require("./user.model");
 const mongoose_1 = require("mongoose");
+const queryBuilder_1 = require("../../builder/queryBuilder");
+const user_constants_1 = require("./user.constants");
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const retrievedUsers = async (query) => {
+    const allUsers = new queryBuilder_1.QueryBuilder(user_model_1.userModel
+        .find()
+        .populate('followers')
+        .populate('following')
+        .populate('posts'), query)
+        .search(user_constants_1.userSearchableFields)
+        .filter()
+        .sort()
+        .paginate()
+        .fields();
+    const user = await allUsers.modelQuery;
+    const meta = await allUsers.countTotal();
+    if (!user) {
+        throw new AppError_1.default(http_status_1.default.NOT_FOUND, 'The user not found!');
+    }
+    return {
+        user,
+        meta,
+    };
+};
 const retrievedMe = async (id) => {
     const res = await user_model_1.userModel
         .findById(id)
@@ -93,4 +117,5 @@ exports.userServices = {
     followUser,
     retrievedMe,
     unFollowUser,
+    retrievedUsers,
 };

@@ -4,6 +4,17 @@ import successResponse from '../../utils/successRespon';
 import { userServices } from './user.services';
 import { Types } from 'mongoose';
 
+const retrievedUsers = catchAsync(async (req, res) => {
+  const data = await userServices.retrievedUsers(req.query);
+
+  successResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'User retrieved successfully!',
+    data: data,
+  });
+});
+
 const retrievedMe = catchAsync(async (req, res) => {
   const user = req.user;
   const data = await userServices.retrievedMe(user && user._id);
@@ -73,4 +84,5 @@ export const userController = {
   followUser,
   retrievedMe,
   unFollowUser,
+  retrievedUsers,
 };

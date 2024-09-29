@@ -7,6 +7,12 @@ import { userRoles } from './user.utils';
 const route = express.Router();
 
 route.get(
+  '/',
+  Auth(userRoles.ADMIN, userRoles.USER),
+  userController.retrievedUsers,
+);
+
+route.get(
   '/me',
   Auth(userRoles.ADMIN, userRoles.USER),
   userController.retrievedMe,

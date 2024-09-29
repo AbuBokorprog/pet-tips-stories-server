@@ -3,6 +3,37 @@ import AppError from '../../errors/AppError';
 import { IUser } from './user.interface';
 import { userModel } from './user.model';
 import { startSession, Types } from 'mongoose';
+import { QueryBuilder } from '../../builder/queryBuilder';
+import { userSearchableFields } from './user.constants';
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const retrievedUsers = async (query: any) => {
+  const allUsers = new QueryBuilder(
+    userModel
+      .find()
+      .populate('followers')
+      .populate('following')
+      .populate('posts'),
+    query,
+  )
+    .search(userSearchableFields)
+    .filter()
+    .sort()
+    .paginate()
+    .fields();
+
+  const user = await allUsers.modelQuery;
+  const meta = await allUsers.countTotal();
+
+  if (!user) {
+    throw new AppError(httpStatus.NOT_FOUND, 'The user not found!');
+  }
+
+  return {
+    user,
+    meta,
+  };
+};
 
 const retrievedMe = async (id: string) => {
   const res = await userModel
@@ -133,4 +164,5 @@ export const userServices = {
   followUser,
   retrievedMe,
   unFollowUser,
+  retrievedUsers,
 };
