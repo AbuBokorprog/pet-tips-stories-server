@@ -38,6 +38,34 @@ const specificPost = catchAsync(async (req, res) => {
   });
 });
 
+const toggleUpVotes = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const user = req.user;
+
+  const data = await postServices.toggleUpVotes(id, user && user._id);
+
+  successResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'Upvote successfully!',
+    data,
+  });
+});
+
+const toggleDownVotes = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const user = req.user;
+
+  const data = await postServices.toggleDownVotes(id, user && user._id);
+
+  successResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'Downvote successfully!',
+    data,
+  });
+});
+
 const updatePost = catchAsync(async (req, res) => {
   const { id } = req.params;
 
@@ -70,4 +98,6 @@ export const postController = {
   updatePost,
   deletePost,
   specificPost,
+  toggleUpVotes,
+  toggleDownVotes,
 };
