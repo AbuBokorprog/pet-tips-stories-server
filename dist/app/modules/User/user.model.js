@@ -37,17 +37,17 @@ const userSchema = new mongoose_1.Schema({
     profilePicture: { type: String, default: '' },
     followers: {
         type: [mongoose_1.default.Schema.Types.ObjectId],
-        ref: 'User',
+        ref: 'user',
         default: [],
     },
     following: {
         type: [mongoose_1.default.Schema.Types.ObjectId],
-        ref: 'User',
+        ref: 'user',
         default: [],
     },
     posts: {
         type: [mongoose_1.default.Schema.Types.ObjectId],
-        ref: 'Post',
+        ref: 'post',
         default: [],
     },
     role: { type: String, enum: ['user', 'admin'], default: 'user' },

@@ -10,17 +10,17 @@ const userSchema = new Schema<IUser>(
     profilePicture: { type: String, default: '' },
     followers: {
       type: [mongoose.Schema.Types.ObjectId],
-      ref: 'User',
+      ref: 'user',
       default: [],
     },
     following: {
       type: [mongoose.Schema.Types.ObjectId],
-      ref: 'User',
+      ref: 'user',
       default: [],
     },
     posts: {
       type: [mongoose.Schema.Types.ObjectId],
-      ref: 'Post',
+      ref: 'post',
       default: [],
     },
     role: { type: String, enum: ['user', 'admin'], default: 'user' },

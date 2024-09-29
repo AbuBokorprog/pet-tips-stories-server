@@ -3,6 +3,7 @@ import { catchAsync } from '../../utils/catchAsync';
 import successResponse from '../../utils/successRespon';
 import { userServices } from './user.services';
 import config from '../../config';
+import { Types } from 'mongoose';
 
 const createUser = catchAsync(async (req, res) => {
   const data = await userServices.createUser(req.body);
@@ -69,8 +70,8 @@ const deleteUser = catchAsync(async (req, res) => {
 const followUser = catchAsync(async (req, res) => {
   const { id } = req.params;
   const user = req.user;
-
-  const data = await userServices.followUser(user && user._id, id);
+  const followedId = new Types.ObjectId(id);
+  const data = await userServices.followUser(user && user._id, followedId);
 
   successResponse(res, {
     statusCode: httpStatus.OK,
@@ -83,8 +84,8 @@ const followUser = catchAsync(async (req, res) => {
 const unFollowUser = catchAsync(async (req, res) => {
   const { id } = req.params;
   const user = req.user;
-
-  const data = await userServices.unFollowUser(user && user._id, id);
+  const followedId = new Types.ObjectId(id);
+  const data = await userServices.unFollowUser(user && user._id, followedId);
 
   successResponse(res, {
     statusCode: httpStatus.OK,
