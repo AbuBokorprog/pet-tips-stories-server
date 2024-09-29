@@ -17,6 +17,10 @@ const commentSchema = new mongoose_1.Schema({
         type: String,
         required: true,
     },
+    parentComment: {
+        type: [mongoose_1.Schema.Types.ObjectId],
+        default: [],
+    },
 }, {
     timestamps: true,
 });

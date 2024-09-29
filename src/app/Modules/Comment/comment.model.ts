@@ -17,6 +17,10 @@ const commentSchema = new Schema<IComment>(
       type: String,
       required: true,
     },
+    parentComment: {
+      type: [Schema.Types.ObjectId],
+      default: [],
+    },
   },
   {
     timestamps: true,

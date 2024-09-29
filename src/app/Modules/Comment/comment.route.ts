@@ -10,6 +10,7 @@ route.post(
   commentController.createComment,
 );
 route.get('/', commentController.retrieveComment);
+
 route.put(
   '/:id',
   validationRequest(updateComment),
