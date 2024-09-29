@@ -67,7 +67,7 @@ const replyComment = async (userId, parentCommentId, payload) => {
 };
 const retrieveComments = async (postId) => {
     const res = await comment_model_1.commentModel
-        .find({ postId, parentComment: null }) // Top-level comments
+        .find({ postId }) // Top-level comments
         .populate({
         path: 'replies',
         populate: {

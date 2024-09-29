@@ -6,13 +6,13 @@ import { loginValidationSchema } from './auth.validation';
 const route = express.Router();
 
 route.post(
-  '/auth/register',
+  '/register',
   validationRequest(createUserValidation),
   authControllers.createUser,
 );
 
 route.post(
-  '/auth/login',
+  '/login',
   validationRequest(loginValidationSchema),
   authControllers.userLogin,
 );

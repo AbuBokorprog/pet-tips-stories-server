@@ -80,7 +80,7 @@ const replyComment = async (
 
 const retrieveComments = async (postId: string) => {
   const res = await commentModel
-    .find({ postId, parentComment: null }) // Top-level comments
+    .find({ postId }) // Top-level comments
     .populate({
       path: 'replies',
       populate: {
