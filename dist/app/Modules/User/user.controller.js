@@ -10,12 +10,12 @@ const successRespon_1 = __importDefault(require("../../utils/successRespon"));
 const user_services_1 = require("./user.services");
 const config_1 = __importDefault(require("../../config"));
 const createUser = (0, catchAsync_1.catchAsync)(async (req, res) => {
-    const user = await user_services_1.userServices.createUser(req.body);
+    const data = await user_services_1.userServices.createUser(req.body);
     (0, successRespon_1.default)(res, {
         statusCode: http_status_1.default.CREATED,
         success: true,
         message: 'User created successfully',
-        data: user,
+        data: data,
     });
 });
 const userLogin = (0, catchAsync_1.catchAsync)(async (req, res) => {
@@ -31,40 +31,55 @@ const userLogin = (0, catchAsync_1.catchAsync)(async (req, res) => {
         data: data,
     });
 });
+const retrievedMe = (0, catchAsync_1.catchAsync)(async (req, res) => {
+    const user = req.user;
+    const data = await user_services_1.userServices.retrievedMe(user && user._id);
+    (0, successRespon_1.default)(res, {
+        statusCode: http_status_1.default.OK,
+        success: true,
+        message: 'User retrieved successfully!',
+        data: data,
+    });
+});
 const updateUser = (0, catchAsync_1.catchAsync)(async (req, res) => {
-    const user = await user_services_1.userServices.updateUser(req.params.id, req.body);
+    const user = req.user;
+    const data = await user_services_1.userServices.updateUser(user && user._id, req.body);
     (0, successRespon_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
         message: 'User updated successfully',
-        data: user,
+        data: data,
     });
 });
 const deleteUser = (0, catchAsync_1.catchAsync)(async (req, res) => {
-    const user = await user_services_1.userServices.deleteUser(req.params.id);
+    const data = await user_services_1.userServices.deleteUser(req.params.id);
     (0, successRespon_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
         message: 'User deleted successfully',
-        data: user,
+        data: data,
     });
 });
 const followUser = (0, catchAsync_1.catchAsync)(async (req, res) => {
-    const user = await user_services_1.userServices.followUser(req.params.id, req.body.followerId);
+    const { id } = req.params;
+    const user = req.user;
+    const data = await user_services_1.userServices.followUser(user && user._id, id);
     (0, successRespon_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
         message: 'User followed successfully',
-        data: user,
+        data: data,
     });
 });
 const unFollowUser = (0, catchAsync_1.catchAsync)(async (req, res) => {
-    const user = await user_services_1.userServices.unFollowUser(req.params.id, req.body.followerId);
+    const { id } = req.params;
+    const user = req.user;
+    const data = await user_services_1.userServices.unFollowUser(user && user._id, id);
     (0, successRespon_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
-        message: 'User unfollowed successfully',
-        data: user,
+        message: 'User unfollow successfully',
+        data: data,
     });
 });
 exports.userController = {
@@ -73,5 +88,6 @@ exports.userController = {
     updateUser,
     deleteUser,
     followUser,
+    retrievedMe,
     unFollowUser,
 };

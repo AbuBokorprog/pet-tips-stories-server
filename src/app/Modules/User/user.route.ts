@@ -23,7 +23,7 @@ route.post(
 );
 
 route.put(
-  '/:id',
+  '/update/me',
   Auth(userRoles.ADMIN, userRoles.USER),
   validationRequest(updateUserValidation),
   userController.updateUser,

@@ -29,6 +29,7 @@ const userLogin = async (payload: { email: string; password: string }) => {
   const jwtPayload = {
     email: isUserExit.email,
     role: isUserExit.role,
+    _id: isUserExit?._id,
     username: isUserExit.username,
     profilePicture: isUserExit?.profilePicture,
   };
@@ -52,6 +53,16 @@ const userLogin = async (payload: { email: string; password: string }) => {
   };
 };
 
+const retrievedMe = async (id: string) => {
+  const res = await userModel.findById(id);
+
+  if (!res) {
+    throw new AppError(httpStatus.NOT_FOUND, 'The user not found!');
+  }
+
+  return res;
+};
+
 const updateUser = async (id: string, payload: IUser) => {
   const user = await userModel.findByIdAndUpdate(id, payload, { new: true });
   return user;
@@ -62,21 +73,33 @@ const deleteUser = async (id: string) => {
   return user;
 };
 
-const followUser = async (userId: string, followerId: string) => {
-  await userModel.findByIdAndUpdate(userId, {
-    $addToSet: { following: followerId },
-  });
+const followUser = async (followerId: string, followedId: string) => {
+  // !follower id is Who wants to follow, and
+  // !followedId is who is being followed.
+
+  // * who wants to follow.
   await userModel.findByIdAndUpdate(followerId, {
-    $addToSet: { followers: userId },
+    $addToSet: { following: followedId },
+  });
+
+  // * who is being followed.
+  await userModel.findByIdAndUpdate(followedId, {
+    $addToSet: { followers: followerId },
   });
 };
 
-const unFollowUser = async (userId: string, followerId: string) => {
-  await userModel.findByIdAndUpdate(userId, {
-    $pull: { followers: followerId },
-  });
+const unFollowUser = async (followerId: string, followedId: string) => {
+  // !followerId is Who wants to unfollow, and
+  // !followedId is who is being unfollowed.
+
+  // *followerId is Who wants to unfollow.
   await userModel.findByIdAndUpdate(followerId, {
-    $pull: { following: userId },
+    $pull: { following: followedId },
+  });
+
+  // *followedId is who is being unfollowed.
+  await userModel.findByIdAndUpdate(followedId, {
+    $pull: { followers: followerId },
   });
 };
 
@@ -86,5 +109,6 @@ export const userServices = {
   updateUser,
   deleteUser,
   followUser,
+  retrievedMe,
   unFollowUser,
 };

@@ -13,7 +13,7 @@ const user_utils_1 = require("./user.utils");
 const route = express_1.default.Router();
 route.post('/register', (0, validationRequest_1.validationRequest)(user_validation_1.createUserValidation), user_controller_1.userController.createUser);
 route.post('/login', (0, validationRequest_1.validationRequest)(user_validation_1.loginValidationSchema), user_controller_1.userController.userLogin);
-route.put('/:id', (0, auth_1.Auth)(user_utils_1.userRoles.ADMIN, user_utils_1.userRoles.USER), (0, validationRequest_1.validationRequest)(user_validation_1.updateUserValidation), user_controller_1.userController.updateUser);
+route.put('/update/me', (0, auth_1.Auth)(user_utils_1.userRoles.ADMIN, user_utils_1.userRoles.USER), (0, validationRequest_1.validationRequest)(user_validation_1.updateUserValidation), user_controller_1.userController.updateUser);
 route.delete('/:id', (0, auth_1.Auth)(user_utils_1.userRoles.ADMIN), user_controller_1.userController.deleteUser);
 route.patch('/:id/follow', (0, auth_1.Auth)(user_utils_1.userRoles.ADMIN, user_utils_1.userRoles.USER), user_controller_1.userController.followUser);
 route.patch('/:id/unfollow', (0, auth_1.Auth)(user_utils_1.userRoles.ADMIN, user_utils_1.userRoles.USER), user_controller_1.userController.unFollowUser);
