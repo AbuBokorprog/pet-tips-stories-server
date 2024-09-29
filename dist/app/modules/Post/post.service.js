@@ -7,16 +7,36 @@ exports.postServices = void 0;
 const http_status_1 = __importDefault(require("http-status"));
 const AppError_1 = __importDefault(require("../../errors/AppError"));
 const post_model_1 = require("./post.model");
-const createPost = async (payload) => {
-    const res = await post_model_1.postModel.create(payload);
-    if (!res) {
-        throw new AppError_1.default(http_status_1.default.BAD_REQUEST, 'Post created failed!');
+const mongoose_1 = require("mongoose");
+const user_model_1 = require("../User/user.model");
+const createPost = async (id, payload) => {
+    const session = await (0, mongoose_1.startSession)();
+    const isExistUser = await user_model_1.userModel.findById(id);
+    if (!isExistUser) {
+        throw new AppError_1.default(http_status_1.default.NOT_FOUND, 'The user not found');
     }
-    if (res && payload.premium === true) {
-        payload.price = 100;
-        // payload.tran_id = `tsx-${res?._id}-${Date.now()}`;
+    try {
+        session.startTransaction();
+        payload.authorId = isExistUser?._id;
+        const res = await post_model_1.postModel.create([payload], { session });
+        if (!res) {
+            throw new AppError_1.default(http_status_1.default.BAD_REQUEST, 'Post created failed!');
+        }
+        await user_model_1.userModel.findByIdAndUpdate(id, {
+            $addToSet: { posts: res[0]?._id },
+        }, { new: true, runValidators: true, session });
+        if (res && payload.premium === true) {
+            payload.price = 100;
+            // payload.tran_id = `tsx-${res?._id}-${Date.now()}`;
+        }
+        await session.commitTransaction();
+        await session.endSession();
+        return res;
     }
-    return res;
+    catch (error) {
+        await session.abortTransaction();
+        await session.endSession();
+    }
 };
 const retrieveAllPosts = async () => {
     const res = await post_model_1.postModel.find();

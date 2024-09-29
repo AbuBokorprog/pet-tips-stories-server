@@ -9,7 +9,8 @@ const catchAsync_1 = require("../../utils/catchAsync");
 const successRespon_1 = __importDefault(require("../../utils/successRespon"));
 const post_service_1 = require("./post.service");
 const createPost = (0, catchAsync_1.catchAsync)(async (req, res) => {
-    const data = await post_service_1.postServices.createPost(req.body);
+    const user = req.user;
+    const data = await post_service_1.postServices.createPost(user && user._id, req.body);
     (0, successRespon_1.default)(res, {
         success: true,
         statusCode: http_status_1.default.CREATED,
@@ -22,7 +23,7 @@ const retrieveAllPosts = (0, catchAsync_1.catchAsync)(async (req, res) => {
     (0, successRespon_1.default)(res, {
         success: true,
         statusCode: http_status_1.default.OK,
-        message: 'Specific post retrieved successfully!',
+        message: 'Retrieved all post successfully!',
         data,
     });
 });
@@ -63,7 +64,7 @@ const updatePost = (0, catchAsync_1.catchAsync)(async (req, res) => {
     const data = await post_service_1.postServices.updatePost(id, req.body);
     (0, successRespon_1.default)(res, {
         success: true,
-        statusCode: http_status_1.default.UPGRADE_REQUIRED,
+        statusCode: http_status_1.default.OK,
         message: 'Post updated successfully!',
         data,
     });

@@ -2,21 +2,46 @@ import httpStatus from 'http-status';
 import AppError from '../../errors/AppError';
 import { IPost } from './post.interface';
 import { postModel } from './post.model';
-import { Types } from 'mongoose';
+import { startSession, Types } from 'mongoose';
+import { userModel } from '../User/user.model';
 
-const createPost = async (payload: IPost) => {
-  const res = await postModel.create(payload);
+const createPost = async (id: string, payload: IPost) => {
+  const session = await startSession();
+  const isExistUser = await userModel.findById(id);
 
-  if (!res) {
-    throw new AppError(httpStatus.BAD_REQUEST, 'Post created failed!');
+  if (!isExistUser) {
+    throw new AppError(httpStatus.NOT_FOUND, 'The user not found');
   }
 
-  if (res && payload.premium === true) {
-    payload.price = 100;
-    // payload.tran_id = `tsx-${res?._id}-${Date.now()}`;
-  }
+  try {
+    session.startTransaction();
+    payload.authorId = isExistUser?._id;
+    const res = await postModel.create([payload], { session });
 
-  return res;
+    if (!res) {
+      throw new AppError(httpStatus.BAD_REQUEST, 'Post created failed!');
+    }
+
+    await userModel.findByIdAndUpdate(
+      id,
+      {
+        $addToSet: { posts: res[0]?._id },
+      },
+      { new: true, runValidators: true, session },
+    );
+
+    if (res && payload.premium === true) {
+      payload.price = 100;
+      // payload.tran_id = `tsx-${res?._id}-${Date.now()}`;
+    }
+
+    await session.commitTransaction();
+    await session.endSession();
+    return res;
+  } catch (error) {
+    await session.abortTransaction();
+    await session.endSession();
+  }
 };
 
 const retrieveAllPosts = async () => {

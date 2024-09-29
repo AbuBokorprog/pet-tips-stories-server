@@ -4,7 +4,8 @@ import successResponse from '../../utils/successRespon';
 import { postServices } from './post.service';
 
 const createPost = catchAsync(async (req, res) => {
-  const data = await postServices.createPost(req.body);
+  const user = req.user;
+  const data = await postServices.createPost(user && user._id, req.body);
 
   successResponse(res, {
     success: true,
@@ -20,7 +21,7 @@ const retrieveAllPosts = catchAsync(async (req, res) => {
   successResponse(res, {
     success: true,
     statusCode: httpStatus.OK,
-    message: 'Specific post retrieved successfully!',
+    message: 'Retrieved all post successfully!',
     data,
   });
 });
@@ -73,7 +74,7 @@ const updatePost = catchAsync(async (req, res) => {
 
   successResponse(res, {
     success: true,
-    statusCode: httpStatus.UPGRADE_REQUIRED,
+    statusCode: httpStatus.OK,
     message: 'Post updated successfully!',
     data,
   });

@@ -8,9 +8,9 @@ exports.createPostValidationSchema = zod_1.z.object({
     category: zod_1.z.enum(['tips', 'story'], {
         errorMap: () => ({ message: 'Category must be either "tips" or "story"' }),
     }),
-    comments: zod_1.z.array(zod_1.z.string()),
-    downVotes: zod_1.z.array(zod_1.z.string()),
-    upVotes: zod_1.z.array(zod_1.z.string()),
+    comments: zod_1.z.array(zod_1.z.string()).optional(),
+    downVotes: zod_1.z.array(zod_1.z.string()).optional(),
+    upVotes: zod_1.z.array(zod_1.z.string()).optional(),
     image: zod_1.z
         .array(zod_1.z.string().url('Each image must be a valid URL'))
         .nonempty('At least one image is required'),

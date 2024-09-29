@@ -11,6 +11,7 @@ const route = express.Router();
 
 route.post(
   '/create-post',
+  Auth(userRoles.ADMIN, userRoles.USER),
   validationRequest(createPostValidationSchema),
   postController.createPost,
 );
@@ -30,9 +31,14 @@ route.patch(
 
 route.put(
   '/:id',
+  Auth(userRoles.ADMIN, userRoles.USER),
   validationRequest(updatePostValidationSchema),
   postController.updatePost,
 );
-route.delete('/:id', postController.deletePost);
+route.delete(
+  '/:id',
+  Auth(userRoles.ADMIN, userRoles.USER),
+  postController.deletePost,
+);
 
 export const postRouter = route;

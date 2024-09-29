@@ -6,9 +6,9 @@ export const createPostValidationSchema = z.object({
   category: z.enum(['tips', 'story'], {
     errorMap: () => ({ message: 'Category must be either "tips" or "story"' }),
   }),
-  comments: z.array(z.string()),
-  downVotes: z.array(z.string()),
-  upVotes: z.array(z.string()),
+  comments: z.array(z.string()).optional(),
+  downVotes: z.array(z.string()).optional(),
+  upVotes: z.array(z.string()).optional(),
   image: z
     .array(z.string().url('Each image must be a valid URL'))
     .nonempty('At least one image is required'),
