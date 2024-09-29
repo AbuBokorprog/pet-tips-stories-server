@@ -3,9 +3,14 @@ import { userRouter } from '../modules/User/user.route';
 import { postRouter } from '../modules/Post/post.route';
 import { commentRouter } from '../modules/Comment/comment.route';
 import { paymentRoute } from '../modules/Payment/payment.route';
+import { authRoutes } from '../modules/Auth/auth.route';
 const router = express.Router();
 
 const moduleRoutes = [
+  {
+    path: '/auth',
+    route: authRoutes,
+  },
   {
     path: '/user',
     route: userRouter,

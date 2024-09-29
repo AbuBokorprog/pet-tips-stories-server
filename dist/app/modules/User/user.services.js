@@ -40,7 +40,11 @@ const userLogin = async (payload) => {
     };
 };
 const retrievedMe = async (id) => {
-    const res = await user_model_1.userModel.findById(id);
+    const res = await user_model_1.userModel
+        .findById(id)
+        .populate('followers')
+        .populate('following')
+        .populate('posts');
     if (!res) {
         throw new AppError_1.default(http_status_1.default.NOT_FOUND, 'The user not found!');
     }

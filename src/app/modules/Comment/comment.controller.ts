@@ -2,9 +2,30 @@ import httpStatus from 'http-status';
 import { catchAsync } from '../../utils/catchAsync';
 import successResponse from '../../utils/successRespon';
 import { commentServices } from './comment.services';
+import { Types } from 'mongoose';
 
 const createComment = catchAsync(async (req, res) => {
-  const data = await commentServices.createComment(req.body);
+  const user = req.user;
+
+  const data = await commentServices.createComment(user && user._id, req.body);
+
+  successResponse(res, {
+    success: true,
+    statusCode: httpStatus.CREATED,
+    message: 'Comment created successfully!',
+    data,
+  });
+});
+
+const replyComment = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const user = req.user;
+  const parentCommentId = new Types.ObjectId(id);
+  const data = await commentServices.replyComment(
+    user && user._id,
+    parentCommentId,
+    req.body,
+  );
 
   successResponse(res, {
     success: true,
@@ -54,4 +75,5 @@ export const commentController = {
   retrieveComment,
   updateComment,
   deleteComment,
+  replyComment,
 };

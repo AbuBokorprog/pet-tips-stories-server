@@ -19,22 +19,22 @@ const postSchema = new mongoose_1.Schema({
     authorId: {
         type: mongoose_1.Schema.Types.ObjectId,
         required: true,
-        ref: 'User',
+        ref: 'user',
     },
     comments: {
         type: [mongoose_1.Schema.Types.ObjectId],
         required: true,
-        ref: 'User',
+        ref: 'user',
     },
     downVotes: {
         type: [mongoose_1.Schema.Types.ObjectId],
         required: true,
-        ref: 'User',
+        ref: 'user',
     },
     upVotes: {
         type: [mongoose_1.Schema.Types.ObjectId],
         required: true,
-        ref: 'User',
+        ref: 'user',
     },
     image: {
         type: [String],

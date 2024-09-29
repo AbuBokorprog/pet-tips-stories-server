@@ -39,11 +39,21 @@ const createPost = async (id, payload) => {
     }
 };
 const retrieveAllPosts = async () => {
-    const res = await post_model_1.postModel.find();
+    const res = await post_model_1.postModel
+        .find()
+        .populate('authorId')
+        .populate('comments')
+        .populate('downVotes')
+        .populate('upVotes');
     return res;
 };
 const specificPost = async (id) => {
-    const res = await post_model_1.postModel.findById(id);
+    const res = await post_model_1.postModel
+        .findById(id)
+        .populate('authorId')
+        .populate('comments')
+        .populate('downVotes')
+        .populate('upVotes');
     return res;
 };
 const toggleUpVotes = async (postId, userId) => {

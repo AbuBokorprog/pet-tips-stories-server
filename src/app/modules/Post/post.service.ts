@@ -45,13 +45,23 @@ const createPost = async (id: string, payload: IPost) => {
 };
 
 const retrieveAllPosts = async () => {
-  const res = await postModel.find();
+  const res = await postModel
+    .find()
+    .populate('authorId')
+    .populate('comments')
+    .populate('downVotes')
+    .populate('upVotes');
 
   return res;
 };
 
 const specificPost = async (id: string) => {
-  const res = await postModel.findById(id);
+  const res = await postModel
+    .findById(id)
+    .populate('authorId')
+    .populate('comments')
+    .populate('downVotes')
+    .populate('upVotes');
 
   return res;
 };

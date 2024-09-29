@@ -55,7 +55,11 @@ const userLogin = async (payload: { email: string; password: string }) => {
 };
 
 const retrievedMe = async (id: string) => {
-  const res = await userModel.findById(id);
+  const res = await userModel
+    .findById(id)
+    .populate('followers')
+    .populate('following')
+    .populate('posts');
 
   if (!res) {
     throw new AppError(httpStatus.NOT_FOUND, 'The user not found!');

@@ -2,18 +2,83 @@ import httpStatus from 'http-status';
 import AppError from '../../errors/AppError';
 import { IComment } from './comment.interface';
 import { commentModel } from './comment.model';
-const createComment = async (payload: IComment) => {
-  const res = await commentModel.create(payload);
+import { postModel } from '../Post/post.model';
+import { startSession, Types } from 'mongoose';
 
-  if (!res) {
-    throw new AppError(httpStatus.BAD_REQUEST, 'Comment created failed!');
+const createComment = async (userId: string, payload: IComment) => {
+  const session = await startSession();
+  const isExistPost = await postModel.findById(payload.postId);
+
+  if (!isExistPost) {
+    throw new AppError(httpStatus.NOT_FOUND, 'The post not found!');
   }
 
-  return res;
+  try {
+    session.startTransaction();
+    const id = new Types.ObjectId(userId);
+    payload.authorId = id;
+    const res = await commentModel.create([payload], { session });
+
+    await postModel.findByIdAndUpdate(payload.postId, {
+      $addToSet: { comments: res[0]._id },
+    });
+
+    await session.commitTransaction();
+    await session.endSession();
+    return res;
+  } catch (error) {
+    await session.abortTransaction();
+    await session.endSession();
+    throw new AppError(httpStatus.BAD_REQUEST, 'Comment created failed!');
+  }
+};
+
+const replyComment = async (
+  userId: string,
+  parentCommentId: Types.ObjectId,
+  payload: IComment,
+) => {
+  const session = await startSession();
+
+  const isExistPost = await postModel.findById(payload.postId);
+
+  if (!isExistPost) {
+    throw new AppError(httpStatus.NOT_FOUND, 'The post not found!');
+  }
+
+  const isExistParentComment = await commentModel.findById(parentCommentId);
+
+  if (!isExistParentComment) {
+    throw new AppError(httpStatus.NOT_FOUND, 'The comment not found!');
+  }
+
+  try {
+    session.startTransaction();
+    const id = new Types.ObjectId(userId);
+    payload.authorId = id;
+    payload.parentComment = [isExistParentComment._id];
+    const res = await commentModel.create([payload], { session });
+
+    await postModel.findByIdAndUpdate(payload.postId, {
+      $addToSet: { comments: res[0]._id },
+    });
+
+    await session.commitTransaction();
+    await session.endSession();
+    return res;
+  } catch (error) {
+    await session.abortTransaction();
+    await session.endSession();
+    throw new AppError(httpStatus.BAD_REQUEST, 'Comment created failed!');
+  }
 };
 
 const retrieveComment = async () => {
-  const res = await commentModel.find();
+  const res = await commentModel
+    .find()
+    .populate('parentComment')
+    .populate('postId')
+    .populate('authorId');
 
   if (!res) {
     throw new AppError(httpStatus.BAD_REQUEST, 'Comment retrieved failed!');
@@ -49,4 +114,5 @@ export const commentServices = {
   retrieveComment,
   updateComment,
   deleteComment,
+  replyComment,
 };

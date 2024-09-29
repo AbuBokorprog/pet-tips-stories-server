@@ -19,22 +19,22 @@ const postSchema = new Schema<IPost>(
     authorId: {
       type: Schema.Types.ObjectId,
       required: true,
-      ref: 'User',
+      ref: 'user',
     },
     comments: {
       type: [Schema.Types.ObjectId],
       required: true,
-      ref: 'User',
+      ref: 'user',
     },
     downVotes: {
       type: [Schema.Types.ObjectId],
       required: true,
-      ref: 'User',
+      ref: 'user',
     },
     upVotes: {
       type: [Schema.Types.ObjectId],
       required: true,
-      ref: 'User',
+      ref: 'user',
     },
     image: {
       type: [String],

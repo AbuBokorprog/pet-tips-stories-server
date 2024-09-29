@@ -19,6 +19,7 @@ const commentSchema = new Schema<IComment>(
     },
     parentComment: {
       type: [Schema.Types.ObjectId],
+      ref: 'comment',
       default: [],
     },
   },

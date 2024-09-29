@@ -8,8 +8,13 @@ const user_route_1 = require("../modules/User/user.route");
 const post_route_1 = require("../modules/Post/post.route");
 const comment_route_1 = require("../modules/Comment/comment.route");
 const payment_route_1 = require("../modules/Payment/payment.route");
+const auth_route_1 = require("../modules/Auth/auth.route");
 const router = express_1.default.Router();
 const moduleRoutes = [
+    {
+        path: '/auth',
+        route: auth_route_1.authRoutes,
+    },
     {
         path: '/user',
         route: user_route_1.userRouter,
