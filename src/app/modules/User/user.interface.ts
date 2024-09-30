@@ -8,5 +8,6 @@ export interface IUser {
   followers: Types.ObjectId[];
   following: Types.ObjectId[];
   posts: Types.ObjectId[];
+  isPremiumUser: boolean;
   role: 'user' | 'admin';
 }

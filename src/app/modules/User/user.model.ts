@@ -23,7 +23,15 @@ const userSchema = new Schema<IUser>(
       ref: 'post',
       default: [],
     },
-    role: { type: String, enum: ['user', 'admin'], default: 'user' },
+    role: {
+      type: String,
+      enum: ['user', 'admin'],
+      default: 'user',
+    },
+    isPremiumUser: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,

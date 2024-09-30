@@ -50,7 +50,15 @@ const userSchema = new mongoose_1.Schema({
         ref: 'post',
         default: [],
     },
-    role: { type: String, enum: ['user', 'admin'], default: 'user' },
+    role: {
+        type: String,
+        enum: ['user', 'admin'],
+        default: 'user',
+    },
+    isPremiumUser: {
+        type: Boolean,
+        default: false,
+    },
 }, {
     timestamps: true,
 });
