@@ -7,6 +7,7 @@ exports.paymentRoute = void 0;
 const express_1 = __importDefault(require("express"));
 const payment_controller_1 = require("./payment.controller");
 const route = express_1.default.Router();
+route.post('/payment');
 route.post('/success-payment', payment_controller_1.paymentController.confirmationController);
 route.post('/failed-payment', payment_controller_1.paymentController.PaymentFailed);
 exports.paymentRoute = route;

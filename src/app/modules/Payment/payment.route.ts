@@ -2,6 +2,7 @@ import express from 'express';
 import { paymentController } from './payment.controller';
 const route = express.Router();
 
+route.post('/payment');
 route.post('/success-payment', paymentController.confirmationController);
 route.post('/failed-payment', paymentController.PaymentFailed);
 
