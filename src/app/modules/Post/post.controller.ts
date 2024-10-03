@@ -26,6 +26,18 @@ const retrieveAllPosts = catchAsync(async (req, res) => {
   });
 });
 
+const retrieveAllPostByAuthor = catchAsync(async (req, res) => {
+  const { authorId } = req.params;
+  const data = await postServices.retrieveAllPostByAuthor(authorId);
+
+  successResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'retrieved post by author successfully!',
+    data,
+  });
+});
+
 const specificPost = catchAsync(async (req, res) => {
   const { id } = req.params;
 
@@ -101,4 +113,5 @@ export const postController = {
   specificPost,
   toggleUpVotes,
   toggleDownVotes,
+  retrieveAllPostByAuthor,
 };

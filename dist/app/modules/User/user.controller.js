@@ -18,6 +18,16 @@ const retrievedUsers = (0, catchAsync_1.catchAsync)(async (req, res) => {
         data: data,
     });
 });
+const retrieveSpecificUser = (0, catchAsync_1.catchAsync)(async (req, res) => {
+    const { id } = req.params;
+    const data = await user_services_1.userServices.retrieveSpecificUser(id);
+    (0, successRespon_1.default)(res, {
+        statusCode: http_status_1.default.OK,
+        success: true,
+        message: 'User retrieved successfully!',
+        data: data,
+    });
+});
 const retrievedMe = (0, catchAsync_1.catchAsync)(async (req, res) => {
     const user = req.user;
     const data = await user_services_1.userServices.retrievedMe(user && user._id);
@@ -78,4 +88,5 @@ exports.userController = {
     retrievedMe,
     unFollowUser,
     retrievedUsers,
+    retrieveSpecificUser,
 };

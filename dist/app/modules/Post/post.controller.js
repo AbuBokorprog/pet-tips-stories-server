@@ -27,6 +27,16 @@ const retrieveAllPosts = (0, catchAsync_1.catchAsync)(async (req, res) => {
         data,
     });
 });
+const retrieveAllPostByAuthor = (0, catchAsync_1.catchAsync)(async (req, res) => {
+    const { authorId } = req.params;
+    const data = await post_service_1.postServices.retrieveAllPostByAuthor(authorId);
+    (0, successRespon_1.default)(res, {
+        success: true,
+        statusCode: http_status_1.default.OK,
+        message: 'retrieved post by author successfully!',
+        data,
+    });
+});
 const specificPost = (0, catchAsync_1.catchAsync)(async (req, res) => {
     const { id } = req.params;
     const data = await post_service_1.postServices.specificPost(id);
@@ -87,4 +97,5 @@ exports.postController = {
     specificPost,
     toggleUpVotes,
     toggleDownVotes,
+    retrieveAllPostByAuthor,
 };

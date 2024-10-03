@@ -18,6 +18,12 @@ route.get(
   userController.retrievedMe,
 );
 
+route.get(
+  '/:id',
+  Auth(userRoles.ADMIN, userRoles.USER),
+  userController.retrieveSpecificUser,
+);
+
 route.put(
   '/update/me',
   Auth(userRoles.ADMIN, userRoles.USER),

@@ -15,6 +15,18 @@ const retrievedUsers = catchAsync(async (req, res) => {
   });
 });
 
+const retrieveSpecificUser = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const data = await userServices.retrieveSpecificUser(id);
+
+  successResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'User retrieved successfully!',
+    data: data,
+  });
+});
+
 const retrievedMe = catchAsync(async (req, res) => {
   const user = req.user;
   const data = await userServices.retrievedMe(user && user._id);
@@ -85,4 +97,5 @@ export const userController = {
   retrievedMe,
   unFollowUser,
   retrievedUsers,
+  retrieveSpecificUser,
 };

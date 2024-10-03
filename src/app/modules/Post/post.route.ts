@@ -18,6 +18,12 @@ route.post(
 route.get('/', postController.retrieveAllPosts);
 route.get('/:id', postController.specificPost);
 
+route.get(
+  '/author/:authorId',
+  Auth(userRoles.USER),
+  postController.retrieveAllPostByAuthor,
+);
+
 route.patch(
   '/:id/upvote',
   Auth(userRoles.ADMIN, userRoles.USER),

@@ -16,28 +16,54 @@ const retrievedUsers = async (query) => {
         .find()
         .populate('followers')
         .populate('following')
-        .populate('posts'), query)
+        .populate({
+        path: 'posts',
+        populate: {
+            path: 'authorId',
+        },
+    }), query)
         .search(user_constants_1.userSearchableFields)
         .filter()
         .sort()
         .paginate()
         .fields();
-    const user = await allUsers.modelQuery;
+    const data = await allUsers.modelQuery;
     const meta = await allUsers.countTotal();
-    if (!user) {
+    if (!data) {
         throw new AppError_1.default(http_status_1.default.NOT_FOUND, 'The user not found!');
     }
     return {
-        user,
+        data,
         meta,
     };
+};
+const retrieveSpecificUser = async (id) => {
+    const res = await user_model_1.userModel
+        .findById(id)
+        .populate('followers')
+        .populate('following')
+        .populate({
+        path: 'posts',
+        populate: {
+            path: 'authorId',
+        },
+    });
+    if (!res) {
+        throw new AppError_1.default(http_status_1.default.NOT_FOUND, 'The user not found!');
+    }
+    return res;
 };
 const retrievedMe = async (id) => {
     const res = await user_model_1.userModel
         .findById(id)
         .populate('followers')
         .populate('following')
-        .populate('posts');
+        .populate({
+        path: 'posts',
+        populate: {
+            path: 'authorId',
+        },
+    });
     if (!res) {
         throw new AppError_1.default(http_status_1.default.NOT_FOUND, 'The user not found!');
     }
@@ -118,4 +144,5 @@ exports.userServices = {
     retrievedMe,
     unFollowUser,
     retrievedUsers,
+    retrieveSpecificUser,
 };

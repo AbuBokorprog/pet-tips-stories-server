@@ -67,6 +67,17 @@ const retrieveAllPosts = async (query: any) => {
   };
 };
 
+const retrieveAllPostByAuthor = async (authorId: string) => {
+  const data = await postModel
+    .find({ authorId: authorId })
+    .populate('authorId')
+    .populate('comments')
+    .populate('downVotes')
+    .populate('upVotes');
+
+  return data;
+};
+
 const specificPost = async (id: string) => {
   const res = await postModel
     .findById(id)
@@ -198,4 +209,5 @@ export const postServices = {
   specificPost,
   toggleUpVotes,
   toggleDownVotes,
+  retrieveAllPostByAuthor,
 };
