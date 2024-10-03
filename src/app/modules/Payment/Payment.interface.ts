@@ -7,6 +7,8 @@ export interface IPayment {
   currency?: string;
   paymentMethod: string;
   status: 'completed' | 'pending' | 'failed';
-  tran_id: string;
   paymentDate?: Date;
+  tran_id?: string;
+  isPaymentSuccess?: boolean;
+  paymentStatus?: 'paid' | 'unpaid';
 }

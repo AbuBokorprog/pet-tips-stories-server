@@ -28,9 +28,22 @@ const userSchema = new Schema<IUser>(
       enum: ['user', 'admin'],
       default: 'user',
     },
-    isPremiumUser: {
+    bio: {
+      type: String,
+      default: null,
+    },
+    isPremium: {
       type: Boolean,
       default: false,
+    },
+    paymentHistory: {
+      type: [mongoose.Schema.Types.ObjectId],
+      ref: 'payment',
+      default: [],
+    },
+    subscriptionExpiresAt: {
+      type: Date,
+      default: null,
     },
   },
   {

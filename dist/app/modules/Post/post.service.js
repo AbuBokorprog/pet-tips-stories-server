@@ -27,10 +27,6 @@ const createPost = async (id, payload) => {
         await user_model_1.userModel.findByIdAndUpdate(id, {
             $addToSet: { posts: res[0]?._id },
         }, { new: true, runValidators: true, session });
-        if (res && payload.premium === true) {
-            payload.price = 100;
-            // payload.tran_id = `tsx-${res?._id}-${Date.now()}`;
-        }
         await session.commitTransaction();
         await session.endSession();
         return res;

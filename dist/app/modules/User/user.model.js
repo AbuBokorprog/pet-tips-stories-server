@@ -55,9 +55,22 @@ const userSchema = new mongoose_1.Schema({
         enum: ['user', 'admin'],
         default: 'user',
     },
-    isPremiumUser: {
+    bio: {
+        type: String,
+        default: null,
+    },
+    isPremium: {
         type: Boolean,
         default: false,
+    },
+    paymentHistory: {
+        type: [mongoose_1.default.Schema.Types.ObjectId],
+        ref: 'payment',
+        default: [],
+    },
+    subscriptionExpiresAt: {
+        type: Date,
+        default: null,
     },
 }, {
     timestamps: true,

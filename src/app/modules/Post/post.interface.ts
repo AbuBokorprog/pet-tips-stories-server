@@ -8,10 +8,6 @@ export interface IPost {
   authorId: Types.ObjectId;
   upVotes: Types.ObjectId[];
   downVotes: Types.ObjectId[];
-  premium: boolean;
-  price: number;
-  tran_id: string | null;
   comments: Types.ObjectId[];
-  paymentStatus: 'Pending' | 'Success';
-  isPaymentSuccessful: boolean;
+  isPublished: boolean;
 }

@@ -32,11 +32,6 @@ const createPost = async (id: string, payload: IPost) => {
       { new: true, runValidators: true, session },
     );
 
-    if (res && payload.premium === true) {
-      payload.price = 100;
-      // payload.tran_id = `tsx-${res?._id}-${Date.now()}`;
-    }
-
     await session.commitTransaction();
     await session.endSession();
     return res;

@@ -40,24 +40,7 @@ const postSchema = new mongoose_1.Schema({
         type: [String],
         required: true,
     },
-    premium: {
-        type: Boolean,
-        default: false,
-    },
-    price: {
-        type: Number,
-        default: null,
-    },
-    tran_id: {
-        type: String,
-        default: null,
-    },
-    paymentStatus: {
-        type: String,
-        enum: ['Pending', 'Success'],
-        default: 'Pending',
-    },
-    isPaymentSuccessful: {
+    isPublished: {
         type: Boolean,
         default: false,
     },
