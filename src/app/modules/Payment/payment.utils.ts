@@ -18,10 +18,9 @@ export const PaymentUtils = async (
         store_id: `aamarpaytest`,
         signature_key: `dbb74894e82415a2f7ff0ec3a97e4183`,
         tran_id: transactionId,
-        success_url: `https://bike-rental-services.vercel.app/api/payment/success-payment?transactionId=${transactionId}`,
-        fail_url:
-          'https://bike-rental-services.vercel.app/api/payment/failed-payment',
-        cancel_url: 'https://rentmyride-theta.vercel.app/',
+        success_url: `http://localhost:5000/api/payment/success-payment?transactionId=${transactionId}`,
+        fail_url: 'http://localhost:5000/api/payment/failed-payment',
+        cancel_url: 'http://localhost:3000/',
         amount: amount,
         currency: 'BDT',
         desc: 'Merchant Registration Payment',

@@ -1,47 +1,46 @@
-import mongoose from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 import { IPayment } from './Payment.interface';
 
 const PaymentSchema = new mongoose.Schema<IPayment>(
   {
-    user: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'user', // Reference to the User model
+    userId: {
+      type: Schema.Types.ObjectId,
+      ref: 'user',
       required: true,
     },
-    subscription: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'subscription', // Reference to the Subscription model
+    paymentProvider: {
+      type: String,
+      default: 'aamarpay',
       required: true,
     },
     amount: {
-      type: Number, // The amount paid
+      type: Number,
       required: true,
     },
     currency: {
-      type: String, // Currency code (e.g., USD, BDT)
+      type: String,
       default: 'BDT',
-    },
-    paymentMethod: {
-      type: String, // e.g., 'Stripe', 'Aamarpay'
       required: true,
     },
     status: {
-      type: String, // e.g., 'completed', 'pending', 'failed'
-      enum: ['completed', 'pending', 'failed'],
+      type: String,
+      enum: ['pending', 'completed', 'failed'],
       default: 'pending',
-      required: true,
     },
-    tran_id: {
+    transactionId: {
       type: String,
       required: true,
     },
-    paymentDate: {
-      type: Date, // Date of the payment
-      default: Date.now,
+    subscriptionStartDate: {
+      type: Date,
+      required: true,
+    },
+    subscriptionEndDate: {
+      type: Date,
       required: true,
     },
   },
   { timestamps: true },
 );
 
-export const Payment = mongoose.model('payment', PaymentSchema);
+export const paymentModel = mongoose.model('payment', PaymentSchema);

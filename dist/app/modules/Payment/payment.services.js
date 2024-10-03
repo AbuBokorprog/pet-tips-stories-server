@@ -10,6 +10,18 @@ const http_status_1 = __importDefault(require("http-status"));
 const payment_utils_1 = require("./payment.utils");
 const AppError_1 = __importDefault(require("../../errors/AppError"));
 const post_model_1 = require("../Post/post.model");
+const payment_model_1 = require("./payment.model");
+const user_model_1 = require("../User/user.model");
+const paymentInitialize = async (payload) => {
+    payload.transactionId = `${new Date()}-${payload.userId}`;
+    const isExistUser = await user_model_1.userModel.findById(payload.userId);
+    if (!isExistUser) {
+        throw new AppError_1.default(http_status_1.default.NOT_FOUND, 'User not found');
+    }
+    const result = await payment_model_1.paymentModel.create(payload);
+    await (0, payment_utils_1.PaymentUtils)(payload.amount, isExistUser, payload.transactionId);
+    return result;
+};
 const confirmationService = async (transactionId) => {
     const verifyResponse = await (0, payment_utils_1.verifyPayment)(transactionId);
     const isExistPost = await post_model_1.postModel.findOne({ tran_id: transactionId });
@@ -38,6 +50,7 @@ const failedPayment = async () => {
     return template;
 };
 exports.paymentServices = {
+    paymentInitialize,
     confirmationService,
     failedPayment,
 };
