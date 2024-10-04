@@ -9,9 +9,7 @@ export const createPostValidationSchema = z.object({
   comments: z.array(z.string()).optional(),
   downVotes: z.array(z.string()).optional(),
   upVotes: z.array(z.string()).optional(),
-  image: z
-    .array(z.string().url('Each image must be a valid URL'))
-    .nonempty('At least one image is required'),
+  image: z.array(z.string()).optional(),
   premium: z.boolean().optional(),
   price: z.number().nullable().optional(),
 });

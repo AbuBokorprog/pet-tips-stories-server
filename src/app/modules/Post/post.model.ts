@@ -38,7 +38,6 @@ const postSchema = new Schema<IPost>(
     },
     image: {
       type: [String],
-      required: true,
     },
     isPublished: {
       type: Boolean,

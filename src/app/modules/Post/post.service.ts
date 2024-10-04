@@ -44,12 +44,10 @@ const createPost = async (id: string, payload: IPost) => {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const retrieveAllPosts = async (query: any) => {
   const allPosts = new QueryBuilder(
-    postModel
-      .find()
-      .populate('authorId')
-      .populate('comments')
-      .populate('downVotes')
-      .populate('upVotes'),
+    postModel.find().populate('authorId'),
+    // .populate('comments')
+    // .populate('downVotes')
+    // .populate('upVotes'),
     query,
   )
     .search(searchableFields)
