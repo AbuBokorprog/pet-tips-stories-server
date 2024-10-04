@@ -7,7 +7,11 @@ const userSchema = new Schema<IUser>(
     username: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    profilePicture: { type: String, default: '' },
+    profilePicture: {
+      type: String,
+      default:
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR2NIXc73ZgxZfbifJP3Bsv35sekQyklo-9JA&s',
+    },
     followers: {
       type: [mongoose.Schema.Types.ObjectId],
       ref: 'user',

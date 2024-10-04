@@ -6,11 +6,7 @@ import { Auth } from '../../middleware/auth';
 import { userRoles } from './user.utils';
 const route = express.Router();
 
-route.get(
-  '/',
-  Auth(userRoles.ADMIN, userRoles.USER),
-  userController.retrievedUsers,
-);
+route.get('/', userController.retrievedUsers);
 
 route.get(
   '/me',
