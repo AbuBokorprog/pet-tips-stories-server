@@ -9,37 +9,51 @@ const fs_1 = require("fs");
 const http_status_1 = __importDefault(require("http-status"));
 const payment_utils_1 = require("./payment.utils");
 const AppError_1 = __importDefault(require("../../errors/AppError"));
-const post_model_1 = require("../Post/post.model");
 const payment_model_1 = require("./payment.model");
 const user_model_1 = require("../User/user.model");
-const paymentInitialize = async (payload) => {
-    payload.transactionId = `${new Date()}-${payload.userId}`;
-    const isExistUser = await user_model_1.userModel.findById(payload.userId);
+const paymentInitialize = async (userId, payload) => {
+    payload.userId = userId;
+    const startDate = new Date();
+    const endDate = new Date(startDate);
+    endDate.setMonth(startDate.getMonth() + 1);
+    payload.subscriptionStartDate = startDate;
+    payload.subscriptionEndDate = new Date(endDate);
+    payload.transactionId = `PR-${Date.now()}-${Math.floor(Math.random() * 10000)}-${userId}`;
+    const isExistUser = await user_model_1.userModel.findById(userId);
     if (!isExistUser) {
         throw new AppError_1.default(http_status_1.default.NOT_FOUND, 'User not found');
     }
-    const result = await payment_model_1.paymentModel.create(payload);
-    await (0, payment_utils_1.PaymentUtils)(payload.amount, isExistUser, payload.transactionId);
+    await payment_model_1.paymentModel.create(payload);
+    const result = await (0, payment_utils_1.PaymentUtils)(payload.amount, isExistUser, payload.transactionId);
     return result;
 };
 const confirmationService = async (transactionId) => {
     const verifyResponse = await (0, payment_utils_1.verifyPayment)(transactionId);
-    const isExistPost = await post_model_1.postModel.findOne({ tran_id: transactionId });
-    if (!isExistPost) {
-        throw new AppError_1.default(http_status_1.default.NOT_FOUND, 'Post not found!');
+    const isExistPayment = await payment_model_1.paymentModel.findOne({
+        transactionId: transactionId,
+    });
+    if (!isExistPayment) {
+        throw new AppError_1.default(http_status_1.default.NOT_FOUND, 'Payment not found!');
+    }
+    const isExistUser = user_model_1.userModel.findById(isExistPayment.userId);
+    if (!isExistUser) {
+        throw new AppError_1.default(http_status_1.default.NOT_FOUND, 'User not found!');
     }
     if (verifyResponse && verifyResponse.pay_status === 'Successful') {
-        await post_model_1.postModel.findOneAndUpdate({ tran_id: transactionId }, {
-            paymentStatus: 'Success',
-            isPaymentSuccessful: true,
+        await payment_model_1.paymentModel.findOneAndUpdate({ transactionId: transactionId }, {
+            status: 'completed',
         }, {
             new: true,
             runValidators: true,
         });
-        await isExistPost.save();
+        const tran_id = isExistPayment._id;
+        await user_model_1.userModel.findByIdAndUpdate(isExistPayment.userId, {
+            $addToSet: { paymentHistory: tran_id },
+            isPremium: true,
+        }, { new: true, runValidators: true });
     }
     // eslint-disable-next-line no-undef
-    const filePath = (0, path_1.join)(__dirname, '../../view/payment-successfull.html');
+    const filePath = (0, path_1.join)(__dirname, '../../view/payment-success.html');
     const template = (0, fs_1.readFileSync)(filePath, 'utf-8');
     return template;
 };

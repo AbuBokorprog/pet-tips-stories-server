@@ -9,7 +9,8 @@ const payment_services_1 = require("./payment.services");
 const successRespon_1 = __importDefault(require("../../utils/successRespon"));
 const http_status_1 = __importDefault(require("http-status"));
 const paymentInitialize = (0, catchAsync_1.catchAsync)(async (req, res) => {
-    const data = await payment_services_1.paymentServices.paymentInitialize(req.body);
+    const user = req.user;
+    const data = await payment_services_1.paymentServices.paymentInitialize(user && user._id, req.body);
     (0, successRespon_1.default)(res, {
         success: true,
         statusCode: http_status_1.default.OK,

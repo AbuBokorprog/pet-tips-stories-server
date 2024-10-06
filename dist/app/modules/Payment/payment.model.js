@@ -56,6 +56,7 @@ const PaymentSchema = new mongoose_1.default.Schema({
     },
     subscriptionStartDate: {
         type: Date,
+        default: new Date(),
         required: true,
     },
     subscriptionEndDate: {

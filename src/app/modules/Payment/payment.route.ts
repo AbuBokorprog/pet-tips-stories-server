@@ -5,7 +5,7 @@ import { userRoles } from '../User/user.utils';
 const route = express.Router();
 
 route.post(
-  '/payment',
+  '/initialize',
   Auth(userRoles.ADMIN, userRoles.USER),
   paymentController.paymentInitialize,
 );

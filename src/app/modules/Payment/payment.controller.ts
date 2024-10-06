@@ -5,7 +5,11 @@ import successResponse from '../../utils/successRespon';
 import httpStatus from 'http-status';
 
 const paymentInitialize = catchAsync(async (req, res) => {
-  const data = await paymentServices.paymentInitialize(req.body);
+  const user = req.user;
+  const data = await paymentServices.paymentInitialize(
+    user && user._id,
+    req.body,
+  );
 
   successResponse(res, {
     success: true,
