@@ -72,6 +72,9 @@ const retrieveComments = async (postId) => {
         path: 'replies',
         populate: {
             path: 'replies', // Populate nested replies recursively
+            populate: {
+                path: 'authorId',
+            },
         },
     })
         .populate('authorId')

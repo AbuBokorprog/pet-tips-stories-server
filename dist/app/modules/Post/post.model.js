@@ -24,7 +24,7 @@ const postSchema = new mongoose_1.Schema({
     comments: {
         type: [mongoose_1.Schema.Types.ObjectId],
         required: true,
-        ref: 'user',
+        ref: 'comment',
     },
     downVotes: {
         type: [mongoose_1.Schema.Types.ObjectId],
@@ -38,11 +38,10 @@ const postSchema = new mongoose_1.Schema({
     },
     image: {
         type: [String],
-        required: true,
     },
     isPublished: {
         type: Boolean,
-        default: false,
+        default: true,
     },
 }, {
     timestamps: true,

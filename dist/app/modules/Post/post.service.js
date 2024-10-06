@@ -38,12 +38,11 @@ const createPost = async (id, payload) => {
 };
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const retrieveAllPosts = async (query) => {
-    const allPosts = new queryBuilder_1.QueryBuilder(post_model_1.postModel
-        .find()
-        .populate('authorId')
-        .populate('comments')
-        .populate('downVotes')
-        .populate('upVotes'), query)
+    const allPosts = new queryBuilder_1.QueryBuilder(post_model_1.postModel.find().populate('authorId'), 
+    // .populate('comments')
+    // .populate('downVotes')
+    // .populate('upVotes'),
+    query)
         .search(post_constants_1.searchableFields)
         .filter()
         .sort()
@@ -60,7 +59,13 @@ const retrieveAllPostByAuthor = async (authorId) => {
     const data = await post_model_1.postModel
         .find({ authorId: authorId })
         .populate('authorId')
-        .populate('comments')
+        .populate({
+        path: 'comments',
+        populate: {
+            path: 'authorId',
+            model: 'user',
+        },
+    })
         .populate('downVotes')
         .populate('upVotes');
     return data;
@@ -69,7 +74,13 @@ const specificPost = async (id) => {
     const res = await post_model_1.postModel
         .findById(id)
         .populate('authorId')
-        .populate('comments')
+        .populate({
+        path: 'comments',
+        populate: {
+            path: 'authorId', // populate authorId inside each comment
+            model: 'user',
+        },
+    })
         .populate('downVotes')
         .populate('upVotes');
     return res;

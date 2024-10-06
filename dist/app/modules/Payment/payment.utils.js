@@ -17,7 +17,7 @@ const PaymentUtils = async (amount, user, transactionId) => {
             tran_id: transactionId,
             success_url: `http://localhost:5000/api/payment/success-payment?transactionId=${transactionId}`,
             fail_url: 'http://localhost:5000/api/payment/failed-payment',
-            cancel_url: 'http://localhost:3000/',
+            cancel_url: 'https://pet-tips-stories-client.vercel.app/',
             amount: amount,
             currency: 'BDT',
             desc: 'Merchant Registration Payment',
