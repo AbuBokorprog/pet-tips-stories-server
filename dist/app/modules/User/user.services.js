@@ -73,6 +73,13 @@ const updateUser = async (id, payload) => {
     const user = await user_model_1.userModel.findByIdAndUpdate(id, payload, { new: true });
     return user;
 };
+const updateUserRole = async (id, payload) => {
+    const user = await user_model_1.userModel.findByIdAndUpdate(id, payload, {
+        new: true,
+        runValidators: true,
+    });
+    return user;
+};
 const deleteUser = async (id) => {
     const user = await user_model_1.userModel.findByIdAndDelete(id);
     return user;
@@ -145,4 +152,5 @@ exports.userServices = {
     unFollowUser,
     retrievedUsers,
     retrieveSpecificUser,
+    updateUserRole,
 };

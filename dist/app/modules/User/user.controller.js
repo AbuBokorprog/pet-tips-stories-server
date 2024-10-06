@@ -48,6 +48,16 @@ const updateUser = (0, catchAsync_1.catchAsync)(async (req, res) => {
         data: data,
     });
 });
+const updateUserRole = (0, catchAsync_1.catchAsync)(async (req, res) => {
+    const { id } = req.params;
+    const data = await user_services_1.userServices.updateUserRole(id, req.body);
+    (0, successRespon_1.default)(res, {
+        statusCode: http_status_1.default.OK,
+        success: true,
+        message: 'User role updated successfully',
+        data: data,
+    });
+});
 const deleteUser = (0, catchAsync_1.catchAsync)(async (req, res) => {
     const data = await user_services_1.userServices.deleteUser(req.params.id);
     (0, successRespon_1.default)(res, {
@@ -89,4 +99,5 @@ exports.userController = {
     unFollowUser,
     retrievedUsers,
     retrieveSpecificUser,
+    updateUserRole,
 };

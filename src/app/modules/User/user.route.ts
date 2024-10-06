@@ -27,6 +27,8 @@ route.put(
   userController.updateUser,
 );
 
+route.put('/:id', Auth(userRoles.ADMIN), userController.updateUserRole);
+
 route.delete('/:id', Auth(userRoles.ADMIN), userController.deleteUser);
 
 route.patch(

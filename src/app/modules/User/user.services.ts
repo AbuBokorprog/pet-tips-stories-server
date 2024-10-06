@@ -78,8 +78,17 @@ const retrievedMe = async (id: string) => {
   return res;
 };
 
-const updateUser = async (id: string, payload: IUser) => {
+const updateUser = async (id: string, payload: Partial<IUser>) => {
   const user = await userModel.findByIdAndUpdate(id, payload, { new: true });
+  return user;
+};
+
+const updateUserRole = async (id: string, payload: Partial<IUser>) => {
+  const user = await userModel.findByIdAndUpdate(id, payload, {
+    new: true,
+    runValidators: true,
+  });
+
   return user;
 };
 
@@ -195,4 +204,5 @@ export const userServices = {
   unFollowUser,
   retrievedUsers,
   retrieveSpecificUser,
+  updateUserRole,
 };
