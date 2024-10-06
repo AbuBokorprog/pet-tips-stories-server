@@ -69,7 +69,13 @@ const retrieveAllPostByAuthor = async (authorId: string) => {
   const data = await postModel
     .find({ authorId: authorId })
     .populate('authorId')
-    .populate('comments')
+    .populate({
+      path: 'comments',
+      populate: {
+        path: 'authorId',
+        model: 'user',
+      },
+    })
     .populate('downVotes')
     .populate('upVotes');
 
@@ -80,7 +86,13 @@ const specificPost = async (id: string) => {
   const res = await postModel
     .findById(id)
     .populate('authorId')
-    .populate('comments')
+    .populate({
+      path: 'comments',
+      populate: {
+        path: 'authorId', // populate authorId inside each comment
+        model: 'user',
+      },
+    })
     .populate('downVotes')
     .populate('upVotes');
 

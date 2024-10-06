@@ -24,7 +24,7 @@ const postSchema = new Schema<IPost>(
     comments: {
       type: [Schema.Types.ObjectId],
       required: true,
-      ref: 'user',
+      ref: 'comment',
     },
     downVotes: {
       type: [Schema.Types.ObjectId],
@@ -41,7 +41,7 @@ const postSchema = new Schema<IPost>(
     },
     isPublished: {
       type: Boolean,
-      default: false,
+      default: true,
     },
   },
   {
