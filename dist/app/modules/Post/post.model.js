@@ -11,6 +11,11 @@ const postSchema = new mongoose_1.Schema({
         type: String,
         required: true,
     },
+    type: {
+        type: String,
+        enum: ['general', 'premium'],
+        default: 'general',
+    },
     category: {
         type: String,
         enum: ['tips', 'story'],
@@ -37,7 +42,7 @@ const postSchema = new mongoose_1.Schema({
         ref: 'user',
     },
     image: {
-        type: [String],
+        type: String,
     },
     isPublished: {
         type: Boolean,

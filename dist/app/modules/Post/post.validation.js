@@ -11,7 +11,7 @@ exports.createPostValidationSchema = zod_1.z.object({
     comments: zod_1.z.array(zod_1.z.string()).optional(),
     downVotes: zod_1.z.array(zod_1.z.string()).optional(),
     upVotes: zod_1.z.array(zod_1.z.string()).optional(),
-    image: zod_1.z.array(zod_1.z.string()).optional(),
+    image: zod_1.z.string().optional(),
     premium: zod_1.z.boolean().optional(),
     price: zod_1.z.number().nullable().optional(),
 });
@@ -22,7 +22,7 @@ exports.updatePostValidationSchema = zod_1.z.object({
     comments: zod_1.z.array(zod_1.z.string()).optional(),
     downVotes: zod_1.z.array(zod_1.z.string()).optional(),
     upVotes: zod_1.z.array(zod_1.z.string()).optional(),
-    image: zod_1.z.array(zod_1.z.string().url('Each image must be a valid URL')).optional(),
+    image: zod_1.z.string().optional(),
     premium: zod_1.z.boolean().optional(),
     price: zod_1.z.number().nullable().optional(),
 });
