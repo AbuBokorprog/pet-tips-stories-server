@@ -77,7 +77,8 @@ const retrieveAllPostByAuthor = async (authorId: string) => {
       },
     })
     .populate('downVotes')
-    .populate('upVotes');
+    .populate('upVotes')
+    .sort('-createdAt');
 
   return data;
 };
