@@ -1,0 +1,628 @@
+{
+	"info": {
+		"_postman_id": "094d3c72-0752-4458-b425-f66f6b6527f7",
+		"name": "Pet tips and stories",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "30863953"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Registered",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"Abu Bokor\",\r\n    \"email\": \"abubokor@gmail.com\",\r\n    \"password\": \"123456\",\r\n    \"profilePicture\": \"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR2NIXc73ZgxZfbifJP3Bsv35sekQyklo-9JA&s\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base-url}}/api/auth/register",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete user",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFidWJva29yQGdtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwiX2lkIjoiNjZmODIxY2QzMDgxNjNjMWMzZWIxMGFiIiwidXNlcm5hbWUiOiJBYnUgQm9rb3IiLCJwcm9maWxlUGljdHVyZSI6Imh0dHBzOi8vZW5jcnlwdGVkLXRibjAuZ3N0YXRpYy5jb20vaW1hZ2VzP3E9dGJuOkFOZDlHY1IyTklYYzczWmd4WmZiaWZKUDNCc3YzNXNla1F5a2xvLTlKQSZzIiwiaWF0IjoxNzI3NTg4MDY0LCJleHAiOjE3MjgxOTI4NjR9.aAGjq4dpGS8uF2ngwa_pnca_VrMQcxkEsPvWZYfahhY",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base-url}}/api/user/66f852b1c6498eda5a3f437a",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"66f852b1c6498eda5a3f437a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update profile",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFidWJva29yQGdtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwiX2lkIjoiNjZmODIxY2QzMDgxNjNjMWMzZWIxMGFiIiwidXNlcm5hbWUiOiJBYnUgQm9rb3IiLCJwcm9maWxlUGljdHVyZSI6Imh0dHBzOi8vZW5jcnlwdGVkLXRibjAuZ3N0YXRpYy5jb20vaW1hZ2VzP3E9dGJuOkFOZDlHY1IyTklYYzczWmd4WmZiaWZKUDNCc3YzNXNla1F5a2xvLTlKQSZzIiwiaWF0IjoxNzI3NTg4MDY0LCJleHAiOjE3MjgxOTI4NjR9.aAGjq4dpGS8uF2ngwa_pnca_VrMQcxkEsPvWZYfahhY",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"Md Abu Bokor\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base-url}}/api/user/update/me",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"update",
+								"me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Follow",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFidWJva29yQGdtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwiX2lkIjoiNjZmOGY1Mjc0YmIyMWZhMGZmZWZmYjg3IiwidXNlcm5hbWUiOiJBYnUgQm9rb3IiLCJwcm9maWxlUGljdHVyZSI6Imh0dHBzOi8vZW5jcnlwdGVkLXRibjAuZ3N0YXRpYy5jb20vaW1hZ2VzP3E9dGJuOkFOZDlHY1IyTklYYzczWmd4WmZiaWZKUDNCc3YzNXNla1F5a2xvLTlKQSZzIiwiaWF0IjoxNzI3NTkxNzM2LCJleHAiOjE3MjgxOTY1MzZ9.xNNnsWuMDXjvvbmr9NLhKzQlECCsyg9dhz0F5EvbD70",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base-url}}/api/user/66f852b1c6498eda5a3f437a/follow",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"66f852b1c6498eda5a3f437a",
+								"follow"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Unfollow",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFidWJva29yQGdtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwiX2lkIjoiNjZmOGY1Mjc0YmIyMWZhMGZmZWZmYjg3IiwidXNlcm5hbWUiOiJBYnUgQm9rb3IiLCJwcm9maWxlUGljdHVyZSI6Imh0dHBzOi8vZW5jcnlwdGVkLXRibjAuZ3N0YXRpYy5jb20vaW1hZ2VzP3E9dGJuOkFOZDlHY1IyTklYYzczWmd4WmZiaWZKUDNCc3YzNXNla1F5a2xvLTlKQSZzIiwiaWF0IjoxNzI3NTkxNzM2LCJleHAiOjE3MjgxOTY1MzZ9.xNNnsWuMDXjvvbmr9NLhKzQlECCsyg9dhz0F5EvbD70",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base-url}}/api/user/66f852b1c6498eda5a3f437a/unfollow",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"66f852b1c6498eda5a3f437a",
+								"unfollow"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n     \"email\": \"superadmin@gmail.com\",\r\n    \"password\": \"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base-url}}/api/auth/login",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get profile",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFidWJva29yQGdtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwiX2lkIjoiNjZmZWMyMzhlYjZmN2UwODQ2NzhlMzM3IiwidXNlcm5hbWUiOiJBYnUgQm9rb3IiLCJwcm9maWxlUGljdHVyZSI6Imh0dHBzOi8vZW5jcnlwdGVkLXRibjAuZ3N0YXRpYy5jb20vaW1hZ2VzP3E9dGJuOkFOZDlHY1IyTklYYzczWmd4WmZiaWZKUDNCc3YzNXNla1F5a2xvLTlKQSZzIiwiaWF0IjoxNzI3OTc0OTAyLCJleHAiOjE3Mjg1Nzk3MDJ9.tc0J2vb8V592u8C0shyhXo_3MQYOyayhfbFw4h0PgEo",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base-url}}/api/user/me",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Specific user",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFidWJva29yQGdtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwiX2lkIjoiNjZmZWMyMzhlYjZmN2UwODQ2NzhlMzM3IiwidXNlcm5hbWUiOiJBYnUgQm9rb3IiLCJwcm9maWxlUGljdHVyZSI6Imh0dHBzOi8vZW5jcnlwdGVkLXRibjAuZ3N0YXRpYy5jb20vaW1hZ2VzP3E9dGJuOkFOZDlHY1IyTklYYzczWmd4WmZiaWZKUDNCc3YzNXNla1F5a2xvLTlKQSZzIiwiaWF0IjoxNzI3OTc0OTAyLCJleHAiOjE3Mjg1Nzk3MDJ9.tc0J2vb8V592u8C0shyhXo_3MQYOyayhfbFw4h0PgEo",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base-url}}/api/user/66fec15a8a73a9fe7099fc9b",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"66fec15a8a73a9fe7099fc9b"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Post",
+			"item": [
+				{
+					"name": "create post.",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InN1cGVyYWRtaW5AZ21haWwuY29tIiwicm9sZSI6ImFkbWluIiwiX2lkIjoiNjZmZWMxNWE4YTczYTlmZTcwOTlmYzliIiwidXNlcm5hbWUiOiLgpobgpq7gpr_gpocg4Kau4Ka-4Kaw4KeN4KaVIOCmnOCni-CmleCmvuCmsCDgpqzgpr7gprDgp43gppciLCJwcm9maWxlUGljdHVyZSI6Imh0dHBzOi8vd3d3LnRlY2hsaWZlLmNvbS5iZC91cGxvYWRzL25ld3MvMDA2ZDMxX3p1bmFpZC1haG1lZC1wYWxhay1nb3QtdGhlLXJlc3BvbnNpYmlsaXR5LW9mLWluZm9ybWF0aW9uLWFuZC10ZWNobm9sb2d5LWRpdmlzaW9uLmpwZyIsImlhdCI6MTcyODAzNzIxOCwiZXhwIjoxNzI4NjQyMDE4fQ.UypfVmrqhq4hWKsxSFujSJ-m5dmRLtWpBPYErlmnGiU",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"5 Tips for Staying Productive\",\n    \"content\": \"Staying productive can be tough, but here are 5 tips that can help you stay on track. Tip 1: Set small achievable goals...\",\n    \"category\": \"tips\",\n    \"image\": [\"https://example.com/images/post-1.jpg\"]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base-url}}/api/post/create-post",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"api",
+								"post",
+								"create-post"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Posts",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base-url}}/api/post",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"api",
+								"post"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Specific post",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base-url}}/api/post/67002ed87158951bea52e06e",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"api",
+								"post",
+								"67002ed87158951bea52e06e"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Post.",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFidWJva29yQGdtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwiX2lkIjoiNjZmOGY1Mjc0YmIyMWZhMGZmZWZmYjg3IiwidXNlcm5hbWUiOiJBYnUgQm9rb3IiLCJwcm9maWxlUGljdHVyZSI6Imh0dHBzOi8vZW5jcnlwdGVkLXRibjAuZ3N0YXRpYy5jb20vaW1hZ2VzP3E9dGJuOkFOZDlHY1IyTklYYzczWmd4WmZiaWZKUDNCc3YzNXNla1F5a2xvLTlKQSZzIiwiaWF0IjoxNzI3NTkyOTg5LCJleHAiOjE3MjgxOTc3ODl9.fedDyK6NTyl7W3Nk0SIfbQdSG_8izC0PYYG-X4L7IKs",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"5 tips of how to take care of your pets.\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base-url}}/api/post/66f8fb13486dd9fc6e8e3ea1",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"api",
+								"post",
+								"66f8fb13486dd9fc6e8e3ea1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete post.",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFidWJva29yQGdtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwiX2lkIjoiNjZmOGY1Mjc0YmIyMWZhMGZmZWZmYjg3IiwidXNlcm5hbWUiOiJBYnUgQm9rb3IiLCJwcm9maWxlUGljdHVyZSI6Imh0dHBzOi8vZW5jcnlwdGVkLXRibjAuZ3N0YXRpYy5jb20vaW1hZ2VzP3E9dGJuOkFOZDlHY1IyTklYYzczWmd4WmZiaWZKUDNCc3YzNXNla1F5a2xvLTlKQSZzIiwiaWF0IjoxNzI3NTkyOTg5LCJleHAiOjE3MjgxOTc3ODl9.fedDyK6NTyl7W3Nk0SIfbQdSG_8izC0PYYG-X4L7IKs",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base-url}}/api/post/66f8fb13486dd9fc6e8e3ea1",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"api",
+								"post",
+								"66f8fb13486dd9fc6e8e3ea1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "down votes",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFidWJva29yQGdtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwiX2lkIjoiNjZmOGY1Mjc0YmIyMWZhMGZmZWZmYjg3IiwidXNlcm5hbWUiOiJBYnUgQm9rb3IiLCJwcm9maWxlUGljdHVyZSI6Imh0dHBzOi8vZW5jcnlwdGVkLXRibjAuZ3N0YXRpYy5jb20vaW1hZ2VzP3E9dGJuOkFOZDlHY1IyTklYYzczWmd4WmZiaWZKUDNCc3YzNXNla1F5a2xvLTlKQSZzIiwiaWF0IjoxNzI3NTkyOTg5LCJleHAiOjE3MjgxOTc3ODl9.fedDyK6NTyl7W3Nk0SIfbQdSG_8izC0PYYG-X4L7IKs",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base-url}}/api/post/66f90c70a400b2d2bf04012f/downvote",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"api",
+								"post",
+								"66f90c70a400b2d2bf04012f",
+								"downvote"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Up votes",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFidWJva29yQGdtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwiX2lkIjoiNjZmOGY1Mjc0YmIyMWZhMGZmZWZmYjg3IiwidXNlcm5hbWUiOiJBYnUgQm9rb3IiLCJwcm9maWxlUGljdHVyZSI6Imh0dHBzOi8vZW5jcnlwdGVkLXRibjAuZ3N0YXRpYy5jb20vaW1hZ2VzP3E9dGJuOkFOZDlHY1IyTklYYzczWmd4WmZiaWZKUDNCc3YzNXNla1F5a2xvLTlKQSZzIiwiaWF0IjoxNzI3NTkyOTg5LCJleHAiOjE3MjgxOTc3ODl9.fedDyK6NTyl7W3Nk0SIfbQdSG_8izC0PYYG-X4L7IKs",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base-url}}/api/post/66fecf68b5792e3f1b93ea9f/upvote",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"api",
+								"post",
+								"66fecf68b5792e3f1b93ea9f",
+								"upvote"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get post by author",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFidWJva29yQGdtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwiX2lkIjoiNjZmZWMyMzhlYjZmN2UwODQ2NzhlMzM3IiwidXNlcm5hbWUiOiJBYnUgQm9rb3IiLCJwcm9maWxlUGljdHVyZSI6Imh0dHBzOi8vZW5jcnlwdGVkLXRibjAuZ3N0YXRpYy5jb20vaW1hZ2VzP3E9dGJuOkFOZDlHY1IyTklYYzczWmd4WmZiaWZKUDNCc3YzNXNla1F5a2xvLTlKQSZzIiwiaWF0IjoxNzI3OTc0OTAyLCJleHAiOjE3Mjg1Nzk3MDJ9.tc0J2vb8V592u8C0shyhXo_3MQYOyayhfbFw4h0PgEo",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base-url}}/api/post/author/66fec238eb6f7e084678e337",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"api",
+								"post",
+								"author",
+								"66fec238eb6f7e084678e337"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Comments",
+			"item": [
+				{
+					"name": "Create comments",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFidWJva29yQGdtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwiX2lkIjoiNjZmOGY1Mjc0YmIyMWZhMGZmZWZmYjg3IiwidXNlcm5hbWUiOiJBYnUgQm9rb3IiLCJwcm9maWxlUGljdHVyZSI6Imh0dHBzOi8vZW5jcnlwdGVkLXRibjAuZ3N0YXRpYy5jb20vaW1hZ2VzP3E9dGJuOkFOZDlHY1IyTklYYzczWmd4WmZiaWZKUDNCc3YzNXNla1F5a2xvLTlKQSZzIiwiaWF0IjoxNzI3NTkyOTg5LCJleHAiOjE3MjgxOTc3ODl9.fedDyK6NTyl7W3Nk0SIfbQdSG_8izC0PYYG-X4L7IKs",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"postId\": \"66f90c70a400b2d2bf04012f\",\n    \"content\": \"hrllo world\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base-url}}/api/comment/create-comment",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"api",
+								"comment",
+								"create-comment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update comments",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFidWJva29yQGdtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwiX2lkIjoiNjZmOGY1Mjc0YmIyMWZhMGZmZWZmYjg3IiwidXNlcm5hbWUiOiJBYnUgQm9rb3IiLCJwcm9maWxlUGljdHVyZSI6Imh0dHBzOi8vZW5jcnlwdGVkLXRibjAuZ3N0YXRpYy5jb20vaW1hZ2VzP3E9dGJuOkFOZDlHY1IyTklYYzczWmd4WmZiaWZKUDNCc3YzNXNla1F5a2xvLTlKQSZzIiwiaWF0IjoxNzI3NTkyOTg5LCJleHAiOjE3MjgxOTc3ODl9.fedDyK6NTyl7W3Nk0SIfbQdSG_8izC0PYYG-X4L7IKs",
+								"type": "text"
+							}
+						]
+					},
+					"response": []
+				},
+				{
+					"name": "get comments",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFidWJva29yQGdtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwiX2lkIjoiNjZmOGY1Mjc0YmIyMWZhMGZmZWZmYjg3IiwidXNlcm5hbWUiOiJBYnUgQm9rb3IiLCJwcm9maWxlUGljdHVyZSI6Imh0dHBzOi8vZW5jcnlwdGVkLXRibjAuZ3N0YXRpYy5jb20vaW1hZ2VzP3E9dGJuOkFOZDlHY1IyTklYYzczWmd4WmZiaWZKUDNCc3YzNXNla1F5a2xvLTlKQSZzIiwiaWF0IjoxNzI3NTkyOTg5LCJleHAiOjE3MjgxOTc3ODl9.fedDyK6NTyl7W3Nk0SIfbQdSG_8izC0PYYG-X4L7IKs",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base-url}}/api/comment/66f90c70a400b2d2bf04012f",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"api",
+								"comment",
+								"66f90c70a400b2d2bf04012f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete comments",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFidWJva29yQGdtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwiX2lkIjoiNjZmOGY1Mjc0YmIyMWZhMGZmZWZmYjg3IiwidXNlcm5hbWUiOiJBYnUgQm9rb3IiLCJwcm9maWxlUGljdHVyZSI6Imh0dHBzOi8vZW5jcnlwdGVkLXRibjAuZ3N0YXRpYy5jb20vaW1hZ2VzP3E9dGJuOkFOZDlHY1IyTklYYzczWmd4WmZiaWZKUDNCc3YzNXNla1F5a2xvLTlKQSZzIiwiaWF0IjoxNzI3NTkyOTg5LCJleHAiOjE3MjgxOTc3ODl9.fedDyK6NTyl7W3Nk0SIfbQdSG_8izC0PYYG-X4L7IKs",
+								"type": "text"
+							}
+						]
+					},
+					"response": []
+				},
+				{
+					"name": "Reply comment",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFidWJva29yQGdtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwiX2lkIjoiNjZmOGY1Mjc0YmIyMWZhMGZmZWZmYjg3IiwidXNlcm5hbWUiOiJBYnUgQm9rb3IiLCJwcm9maWxlUGljdHVyZSI6Imh0dHBzOi8vZW5jcnlwdGVkLXRibjAuZ3N0YXRpYy5jb20vaW1hZ2VzP3E9dGJuOkFOZDlHY1IyTklYYzczWmd4WmZiaWZKUDNCc3YzNXNla1F5a2xvLTlKQSZzIiwiaWF0IjoxNzI3NTkyOTg5LCJleHAiOjE3MjgxOTc3ODl9.fedDyK6NTyl7W3Nk0SIfbQdSG_8izC0PYYG-X4L7IKs",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"postId\": \"66f90c70a400b2d2bf04012f\",\n    \"content\": \"child world2\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base-url}}/api/comment/66f9722c79c4d49281fe2cc6/reply",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"api",
+								"comment",
+								"66f9722c79c4d49281fe2cc6",
+								"reply"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Categories",
+			"item": []
+		},
+		{
+			"name": "Payment",
+			"item": [
+				{
+					"name": "payment initialized",
+					"request": {
+						"method": "POST",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer"
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base-url",
+			"value": "http://localhost:5000",
+			"type": "string"
+		},
+		{
+			"key": "base-url",
+			"value": "https://pet-tips-stories-server.vercel.app",
+			"type": "string",
+			"disabled": true
+		}
+	]
+}
