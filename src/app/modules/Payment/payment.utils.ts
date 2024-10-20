@@ -18,8 +18,9 @@ export const PaymentUtils = async (
         store_id: `aamarpaytest`,
         signature_key: `dbb74894e82415a2f7ff0ec3a97e4183`,
         tran_id: transactionId,
-        success_url: `http://localhost:5000/api/payment/success-payment?transactionId=${transactionId}`,
-        fail_url: 'http://localhost:5000/api/payment/failed-payment',
+        success_url: `https://pet-tips-stories-server.vercel.app/api/payment/success-payment?transactionId=${transactionId}`,
+        fail_url:
+          'https://pet-tips-stories-server.vercel.app/api/payment/failed-payment',
         cancel_url: 'https://pet-tips-stories-client.vercel.app/',
         amount: amount,
         currency: 'BDT',
