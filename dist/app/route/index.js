@@ -9,6 +9,8 @@ const post_route_1 = require("../modules/Post/post.route");
 const comment_route_1 = require("../modules/Comment/comment.route");
 const payment_route_1 = require("../modules/Payment/payment.route");
 const auth_route_1 = require("../modules/Auth/auth.route");
+const categories_route_1 = require("../modules/Categories/categories.route");
+const tags_route_1 = require("../modules/Tags/tags.route");
 const router = express_1.default.Router();
 const moduleRoutes = [
     {
@@ -18,6 +20,14 @@ const moduleRoutes = [
     {
         path: '/user',
         route: user_route_1.userRouter,
+    },
+    {
+        path: '/category',
+        route: categories_route_1.categoryRoute,
+    },
+    {
+        path: '/tag',
+        route: tags_route_1.tagsRoute,
     },
     {
         path: '/post',

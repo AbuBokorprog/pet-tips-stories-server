@@ -4,6 +4,8 @@ import { postRouter } from '../modules/Post/post.route';
 import { commentRouter } from '../modules/Comment/comment.route';
 import { paymentRoute } from '../modules/Payment/payment.route';
 import { authRoutes } from '../modules/Auth/auth.route';
+import { categoryRoute } from '../modules/Categories/categories.route';
+import { tagsRoute } from '../modules/Tags/tags.route';
 const router = express.Router();
 
 const moduleRoutes = [
@@ -14,6 +16,14 @@ const moduleRoutes = [
   {
     path: '/user',
     route: userRouter,
+  },
+  {
+    path: '/category',
+    route: categoryRoute,
+  },
+  {
+    path: '/tag',
+    route: tagsRoute,
   },
   {
     path: '/post',
