@@ -42,7 +42,7 @@ const retrievedMe = catchAsync(async (req, res) => {
 const updateUser = catchAsync(async (req, res) => {
   const user = req.user;
   const data = await userServices.updateUser(
-    req?.file,
+    req.file,
     user && user._id,
     req.body,
   );
