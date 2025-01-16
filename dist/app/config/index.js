@@ -17,4 +17,6 @@ exports.default = {
     access_expires: process.env.JWT_ACCESS_EXPIRES_IN,
     refresh_secret: process.env.JWT_REFRESH_SECRET,
     refresh_expires: process.env.JWT_REFRESH_EXPIRES_IN,
+    cloudinary_api_key: process.env.CLOUDINARY_API_KEY,
+    cloudinary_secret_key: process.env.CLOUDINARY_SECRET_KEY,
 };
