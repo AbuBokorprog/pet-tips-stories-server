@@ -11,7 +11,14 @@ const mongoose_1 = require("mongoose");
 const user_model_1 = require("../User/user.model");
 const queryBuilder_1 = require("../../builder/queryBuilder");
 const post_constants_1 = require("./post.constants");
-const createPost = async (id, payload) => {
+const imageUploader_1 = require("../../utils/imageUploader");
+const createPost = async (file, id, payload) => {
+    if (file) {
+        const imagePath = file.path;
+        const imageName = `${payload.title.slice(0, 10)}-${new Date()}-${Math.random().toString(10).substr(2, 9)}`;
+        const response = await (0, imageUploader_1.ImageUpload)(imageName, imagePath);
+        payload.image = response.secure_url || file.path;
+    }
     const session = await (0, mongoose_1.startSession)();
     const isExistUser = await user_model_1.userModel.findById(id);
     if (!isExistUser) {
@@ -152,7 +159,17 @@ const toggleDownVotes = async (postId, userId) => {
         throw new AppError_1.default(http_status_1.default.BAD_REQUEST, error?.message);
     }
 };
-const updatePost = async (id, payload) => {
+const updatePost = async (file, id, payload) => {
+    const isExistPost = await post_model_1.postModel.findById(id);
+    if (!isExistPost) {
+        throw new AppError_1.default(http_status_1.default.NOT_FOUND, 'Post not found!');
+    }
+    if (file) {
+        const imagePath = file.path;
+        const imageName = `${payload?.title ? payload.title.slice(0, 10) : isExistPost?.title}-${new Date()}-${Math.random().toString(10).substr(2, 9)}`;
+        const response = await (0, imageUploader_1.ImageUpload)(imageName, imagePath);
+        payload.image = response.secure_url || file.path;
+    }
     const res = await post_model_1.postModel.findByIdAndUpdate(id, payload, {
         new: true,
         runValidators: true,

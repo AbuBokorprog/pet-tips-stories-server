@@ -9,8 +9,12 @@ const user_validation_1 = require("../User/user.validation");
 const auth_controller_1 = require("./auth.controller");
 const validationRequest_1 = require("../../utils/validationRequest");
 const auth_validation_1 = require("./auth.validation");
+const imageUploader_1 = require("../../utils/imageUploader");
 const route = express_1.default.Router();
-route.post('/register', (0, validationRequest_1.validationRequest)(user_validation_1.createUserValidation), auth_controller_1.authControllers.createUser);
+route.post('/register', imageUploader_1.upload.single('file'), (req, res, next) => {
+    req.body = JSON.parse(req.body.data);
+    next();
+}, (0, validationRequest_1.validationRequest)(user_validation_1.createUserValidation), auth_controller_1.authControllers.createUser);
 route.post('/login', (0, validationRequest_1.validationRequest)(auth_validation_1.loginValidationSchema), auth_controller_1.authControllers.userLogin);
 route.post('/forget-password');
 route.post('/refresh-token');

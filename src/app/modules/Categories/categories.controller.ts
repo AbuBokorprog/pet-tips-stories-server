@@ -1,10 +1,10 @@
 import httpStatus from 'http-status';
 import { catchAsync } from '../../utils/catchAsync';
 import successResponse from '../../utils/successRespon';
-import { categoryService } from './categories.server';
+import { categoryService } from './categories.service';
 
 const createCategory = catchAsync(async (req, res) => {
-  const data = await categoryService.createCategory(req.body);
+  const data = await categoryService.createCategory(req.file, req.body);
 
   successResponse(res, {
     success: true,
@@ -26,7 +26,7 @@ const retrieveAllCategory = catchAsync(async (req, res) => {
 });
 const updateCategory = catchAsync(async (req, res) => {
   const { id } = req.params;
-  const data = await categoryService.updateCategory(id, req.body);
+  const data = await categoryService.updateCategory(req?.file, id, req.body);
 
   successResponse(res, {
     success: true,

@@ -6,8 +6,15 @@ import { startSession, Types } from 'mongoose';
 import { userModel } from '../User/user.model';
 import { QueryBuilder } from '../../builder/queryBuilder';
 import { searchableFields } from './post.constants';
+import { ImageUpload } from '../../utils/imageUploader';
 
-const createPost = async (id: string, payload: IPost) => {
+const createPost = async (file: any, id: string, payload: IPost) => {
+  if (file) {
+    const imagePath = file.path;
+    const imageName = `${payload.title.slice(0, 10)}-${new Date()}-${Math.random().toString(10).substr(2, 9)}`;
+    const response: any = await ImageUpload(imageName, imagePath);
+    payload.image = response.secure_url || file.path;
+  }
   const session = await startSession();
   const isExistUser = await userModel.findById(id);
 
@@ -198,7 +205,17 @@ const toggleDownVotes = async (postId: string, userId: Types.ObjectId) => {
   }
 };
 
-const updatePost = async (id: string, payload: Partial<IPost>) => {
+const updatePost = async (file: any, id: string, payload: Partial<IPost>) => {
+  const isExistPost = await postModel.findById(id);
+  if (!isExistPost) {
+    throw new AppError(httpStatus.NOT_FOUND, 'Post not found!');
+  }
+  if (file) {
+    const imagePath = file.path;
+    const imageName = `${payload?.title ? payload.title.slice(0, 10) : isExistPost?.title}-${new Date()}-${Math.random().toString(10).substr(2, 9)}`;
+    const response: any = await ImageUpload(imageName, imagePath);
+    payload.image = response.secure_url || file.path;
+  }
   const res = await postModel.findByIdAndUpdate(id, payload, {
     new: true,
     runValidators: true,

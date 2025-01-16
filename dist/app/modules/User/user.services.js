@@ -10,6 +10,7 @@ const user_model_1 = require("./user.model");
 const mongoose_1 = require("mongoose");
 const queryBuilder_1 = require("../../builder/queryBuilder");
 const user_constants_1 = require("./user.constants");
+const imageUploader_1 = require("../../utils/imageUploader");
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const retrievedUsers = async (query) => {
     const allUsers = new queryBuilder_1.QueryBuilder(user_model_1.userModel
@@ -69,7 +70,17 @@ const retrievedMe = async (id) => {
     }
     return res;
 };
-const updateUser = async (id, payload) => {
+const updateUser = async (file, id, payload) => {
+    const isExistUser = await user_model_1.userModel.findById(id);
+    if (!isExistUser) {
+        throw new AppError_1.default(http_status_1.default.NOT_FOUND, 'Post not found!');
+    }
+    if (file) {
+        const imagePath = file?.path;
+        const imageName = `${payload?.username ? payload?.username : isExistUser?.username}-${Date.now()}-${Math.random().toString(10).substr(2, 9)}`;
+        const response = await (0, imageUploader_1.ImageUpload)(imageName, imagePath);
+        payload.profilePicture = response.secure_url || file?.path;
+    }
     const user = await user_model_1.userModel.findByIdAndUpdate(id, payload, { new: true });
     return user;
 };

@@ -10,7 +10,7 @@ const successRespon_1 = __importDefault(require("../../utils/successRespon"));
 const config_1 = __importDefault(require("../../config"));
 const auth_services_1 = require("./auth.services");
 const createUser = (0, catchAsync_1.catchAsync)(async (req, res) => {
-    const data = await auth_services_1.authServices.createUser(req.body);
+    const data = await auth_services_1.authServices.createUser(req.file, req.body);
     (0, successRespon_1.default)(res, {
         statusCode: http_status_1.default.CREATED,
         success: true,

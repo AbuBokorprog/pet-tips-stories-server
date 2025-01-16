@@ -5,7 +5,7 @@ import config from '../../config';
 import { authServices } from './auth.services';
 
 const createUser = catchAsync(async (req, res) => {
-  const data = await authServices.createUser(req.body);
+  const data = await authServices.createUser(req.file, req.body);
 
   successResponse(res, {
     statusCode: httpStatus.CREATED,

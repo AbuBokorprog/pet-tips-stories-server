@@ -7,10 +7,16 @@ import {
 import { postController } from './post.controller';
 import { Auth } from '../../middleware/auth';
 import { userRoles } from '../User/user.utils';
+import { upload } from '../../utils/imageUploader';
 const route = express.Router();
 
 route.post(
   '/create-post',
+  upload.single('file'),
+  (req, res, next) => {
+    req.body = JSON.parse(req.body.data);
+    next();
+  },
   Auth(userRoles.ADMIN, userRoles.USER),
   validationRequest(createPostValidationSchema),
   postController.createPost,
@@ -37,6 +43,11 @@ route.patch(
 
 route.put(
   '/:id',
+  upload.single('file'),
+  (req, res, next) => {
+    req.body = JSON.parse(req.body.data);
+    next();
+  },
   Auth(userRoles.ADMIN, userRoles.USER),
   validationRequest(updatePostValidationSchema),
   postController.updatePost,

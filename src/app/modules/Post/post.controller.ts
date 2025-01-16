@@ -5,7 +5,11 @@ import { postServices } from './post.service';
 
 const createPost = catchAsync(async (req, res) => {
   const user = req.user;
-  const data = await postServices.createPost(user && user._id, req.body);
+  const data = await postServices.createPost(
+    req.file,
+    user && user._id,
+    req.body,
+  );
 
   successResponse(res, {
     success: true,
@@ -82,7 +86,7 @@ const toggleDownVotes = catchAsync(async (req, res) => {
 const updatePost = catchAsync(async (req, res) => {
   const { id } = req.params;
 
-  const data = await postServices.updatePost(id, req.body);
+  const data = await postServices.updatePost(req?.file, id, req.body);
 
   successResponse(res, {
     success: true,

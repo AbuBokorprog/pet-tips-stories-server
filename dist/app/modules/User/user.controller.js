@@ -40,7 +40,7 @@ const retrievedMe = (0, catchAsync_1.catchAsync)(async (req, res) => {
 });
 const updateUser = (0, catchAsync_1.catchAsync)(async (req, res) => {
     const user = req.user;
-    const data = await user_services_1.userServices.updateUser(user && user._id, req.body);
+    const data = await user_services_1.userServices.updateUser(req?.file, user && user._id, req.body);
     (0, successRespon_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,

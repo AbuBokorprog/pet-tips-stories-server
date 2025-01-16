@@ -41,7 +41,11 @@ const retrievedMe = catchAsync(async (req, res) => {
 
 const updateUser = catchAsync(async (req, res) => {
   const user = req.user;
-  const data = await userServices.updateUser(user && user._id, req.body);
+  const data = await userServices.updateUser(
+    req?.file,
+    user && user._id,
+    req.body,
+  );
 
   successResponse(res, {
     statusCode: httpStatus.OK,

@@ -10,7 +10,14 @@ const user_model_1 = require("../User/user.model");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const user_utils_1 = require("../User/user.utils");
 const config_1 = __importDefault(require("../../config"));
-const createUser = async (payload) => {
+const imageUploader_1 = require("../../utils/imageUploader");
+const createUser = async (file, payload) => {
+    if (file) {
+        const imagePath = file.path;
+        const imageName = `${payload.username}-${Date.now()}-${Math.random().toString(10).substr(2, 9)}`;
+        const response = await (0, imageUploader_1.ImageUpload)(imageName, imagePath);
+        payload.profilePicture = response.secure_url || file?.path;
+    }
     const user = await user_model_1.userModel.create(payload);
     return user;
 };

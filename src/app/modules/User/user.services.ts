@@ -5,6 +5,7 @@ import { userModel } from './user.model';
 import { startSession, Types } from 'mongoose';
 import { QueryBuilder } from '../../builder/queryBuilder';
 import { userSearchableFields } from './user.constants';
+import { ImageUpload } from '../../utils/imageUploader';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const retrievedUsers = async (query: any) => {
@@ -78,7 +79,17 @@ const retrievedMe = async (id: string) => {
   return res;
 };
 
-const updateUser = async (id: string, payload: Partial<IUser>) => {
+const updateUser = async (file: any, id: string, payload: Partial<IUser>) => {
+  const isExistUser = await userModel.findById(id);
+  if (!isExistUser) {
+    throw new AppError(httpStatus.NOT_FOUND, 'Post not found!');
+  }
+  if (file) {
+    const imagePath = file?.path;
+    const imageName = `${payload?.username ? payload?.username : isExistUser?.username}-${Date.now()}-${Math.random().toString(10).substr(2, 9)}`;
+    const response: any = await ImageUpload(imageName, imagePath);
+    payload.profilePicture = response.secure_url || file?.path;
+  }
   const user = await userModel.findByIdAndUpdate(id, payload, { new: true });
   return user;
 };

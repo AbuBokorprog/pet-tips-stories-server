@@ -2,8 +2,16 @@ import httpStatus from 'http-status';
 import AppError from '../../errors/AppError';
 import { TCategory } from './categories.interface';
 import { categoryModel } from './categories.model';
+import { ImageUpload } from '../../utils/imageUploader';
 
-const createCategory = async (payload: TCategory) => {
+const createCategory = async (file: any, payload: TCategory) => {
+  if (file) {
+    const imagePath = file.path;
+    const imageName = `${payload.name}-${new Date()}-${Math.random().toString(10).substr(2, 9)}`;
+    const response: any = await ImageUpload(imageName, imagePath);
+    payload.image = response.secure_url || file.path;
+  }
+
   const data = await categoryModel.create(payload);
 
   return data;
@@ -14,11 +22,22 @@ const retrieveAllCategory = async () => {
 
   return data;
 };
-const updateCategory = async (id: string, payload: Partial<TCategory>) => {
+const updateCategory = async (
+  file: any,
+  id: string,
+  payload: Partial<TCategory>,
+) => {
   const isExistCategory = await categoryModel.findById(id);
 
   if (!isExistCategory) {
     throw new AppError(httpStatus.NOT_FOUND, 'Category not found!');
+  }
+
+  if (file) {
+    const imagePath = file.path;
+    const imageName = `${payload?.name ? payload.name : isExistCategory?.name}-${new Date()}-${Math.random().toString(10).substr(2, 9)}`;
+    const response: any = await ImageUpload(imageName, imagePath);
+    payload.image = response.secure_url || file.path;
   }
 
   const data = await categoryModel.findByIdAndUpdate(id, payload, {

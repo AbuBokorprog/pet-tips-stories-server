@@ -5,7 +5,15 @@ import { userModel } from '../User/user.model';
 import bcrypt from 'bcrypt';
 import { createToken } from '../User/user.utils';
 import config from '../../config';
-const createUser = async (payload: IUser) => {
+import { ImageUpload } from '../../utils/imageUploader';
+const createUser = async (file: any, payload: IUser) => {
+  if (file) {
+    const imagePath = file.path;
+    const imageName = `${payload.username}-${Date.now()}-${Math.random().toString(10).substr(2, 9)}`;
+    const response: any = await ImageUpload(imageName, imagePath);
+
+    payload.profilePicture = response.secure_url || file?.path;
+  }
   const user = await userModel.create(payload);
   return user;
 };

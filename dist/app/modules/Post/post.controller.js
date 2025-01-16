@@ -10,7 +10,7 @@ const successRespon_1 = __importDefault(require("../../utils/successRespon"));
 const post_service_1 = require("./post.service");
 const createPost = (0, catchAsync_1.catchAsync)(async (req, res) => {
     const user = req.user;
-    const data = await post_service_1.postServices.createPost(user && user._id, req.body);
+    const data = await post_service_1.postServices.createPost(req.file, user && user._id, req.body);
     (0, successRespon_1.default)(res, {
         success: true,
         statusCode: http_status_1.default.CREATED,
@@ -71,7 +71,7 @@ const toggleDownVotes = (0, catchAsync_1.catchAsync)(async (req, res) => {
 });
 const updatePost = (0, catchAsync_1.catchAsync)(async (req, res) => {
     const { id } = req.params;
-    const data = await post_service_1.postServices.updatePost(id, req.body);
+    const data = await post_service_1.postServices.updatePost(req?.file, id, req.body);
     (0, successRespon_1.default)(res, {
         success: true,
         statusCode: http_status_1.default.OK,
