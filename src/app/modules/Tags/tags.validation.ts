@@ -8,7 +8,7 @@ const updateTagValidationSchema = z.object({
   name: z.string().optional(),
 });
 
-export const createTagValidation = {
+export const TagValidation = {
   createTagValidationSchema,
   updateTagValidationSchema,
 };

@@ -1,10 +1,27 @@
 import express from 'express';
 import { tagsController } from './tags.controller';
+import { Auth } from '../../middleware/auth';
+import { userRoles } from '../User/user.utils';
+import { validationRequest } from '../../utils/validationRequest';
+import { TagValidation } from './tags.validation';
 const route = express.Router();
 
-route.post('/', tagsController.createTag);
-route.get('/', tagsController.createTag);
-route.patch('/:id', tagsController.createTag);
-route.delete('/:id', tagsController.createTag);
+route.post(
+  '/',
+  Auth(userRoles.ADMIN),
+  validationRequest(TagValidation.createTagValidationSchema),
+  tagsController.createTag,
+);
+route.get('/', tagsController.retrieveAllTag);
+route.patch(
+  '/:id',
+  Auth(userRoles.ADMIN, userRoles.USER),
+  tagsController.updateTag,
+);
+route.delete(
+  '/:id',
+  Auth(userRoles.ADMIN, userRoles.USER),
+  tagsController.deleteTag,
+);
 
 export const tagsRoute = route;
