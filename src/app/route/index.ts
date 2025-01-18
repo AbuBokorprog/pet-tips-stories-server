@@ -6,6 +6,7 @@ import { paymentRoute } from '../modules/Payment/payment.route';
 import { authRoutes } from '../modules/Auth/auth.route';
 import { categoryRoute } from '../modules/Categories/categories.route';
 import { tagsRoute } from '../modules/Tags/tags.route';
+import { bookmarkRoute } from '../modules/Bookmark/bookmark.route';
 const router = express.Router();
 
 const moduleRoutes = [
@@ -18,12 +19,16 @@ const moduleRoutes = [
     route: userRouter,
   },
   {
-    path: '/category',
+    path: '/categories',
     route: categoryRoute,
   },
   {
-    path: '/tag',
+    path: '/tags',
     route: tagsRoute,
+  },
+  {
+    path: '/bookmarks',
+    route: bookmarkRoute,
   },
   {
     path: '/post',

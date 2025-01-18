@@ -11,6 +11,7 @@ const payment_route_1 = require("../modules/Payment/payment.route");
 const auth_route_1 = require("../modules/Auth/auth.route");
 const categories_route_1 = require("../modules/Categories/categories.route");
 const tags_route_1 = require("../modules/Tags/tags.route");
+const bookmark_route_1 = require("../modules/Bookmark/bookmark.route");
 const router = express_1.default.Router();
 const moduleRoutes = [
     {
@@ -22,12 +23,16 @@ const moduleRoutes = [
         route: user_route_1.userRouter,
     },
     {
-        path: '/category',
+        path: '/categories',
         route: categories_route_1.categoryRoute,
     },
     {
-        path: '/tag',
+        path: '/tags',
         route: tags_route_1.tagsRoute,
+    },
+    {
+        path: '/bookmarks',
+        route: bookmark_route_1.bookmarkRoute,
     },
     {
         path: '/post',

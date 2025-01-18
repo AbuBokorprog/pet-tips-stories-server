@@ -9,6 +9,7 @@ exports.createPostValidationSchema = zod_1.z.object({
         errorMap: () => ({ message: 'Category must be either "tips" or "story"' }),
     }),
     comments: zod_1.z.array(zod_1.z.string()).optional(),
+    tags: zod_1.z.array(zod_1.z.string()).optional(),
     downVotes: zod_1.z.array(zod_1.z.string()).optional(),
     upVotes: zod_1.z.array(zod_1.z.string()).optional(),
     image: zod_1.z.string().optional(),
@@ -24,5 +25,6 @@ exports.updatePostValidationSchema = zod_1.z.object({
     upVotes: zod_1.z.array(zod_1.z.string()).optional(),
     image: zod_1.z.string().optional(),
     premium: zod_1.z.boolean().optional(),
+    tags: zod_1.z.array(zod_1.z.string()).optional(),
     price: zod_1.z.number().nullable().optional(),
 });

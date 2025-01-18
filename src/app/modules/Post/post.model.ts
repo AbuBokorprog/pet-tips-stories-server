@@ -21,6 +21,10 @@ const postSchema = new Schema<IPost>(
       enum: ['tips', 'story'],
       required: true,
     },
+    tags: {
+      type: [Schema.Types.ObjectId],
+      ref: 'tags',
+    },
     authorId: {
       type: Schema.Types.ObjectId,
       required: true,

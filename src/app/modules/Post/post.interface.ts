@@ -10,5 +10,6 @@ export interface IPost {
   upVotes: Types.ObjectId[];
   downVotes: Types.ObjectId[];
   comments: Types.ObjectId[];
+  tags: Types.ObjectId[];
   isPublished: boolean;
 }
