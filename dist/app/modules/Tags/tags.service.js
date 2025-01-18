@@ -15,6 +15,10 @@ const retrieveAllTag = async () => {
     const data = await tags_model_1.tagModel.find();
     return data;
 };
+const retrieveSpecificTag = async (id) => {
+    const data = await tags_model_1.tagModel.findById(id);
+    return data;
+};
 const updateTag = async (id, payload) => {
     const isExistTag = await tags_model_1.tagModel.findById(id);
     if (!isExistTag) {
@@ -39,4 +43,5 @@ exports.tagsService = {
     retrieveAllTag,
     updateTag,
     deleteTag,
+    retrieveSpecificTag,
 };

@@ -4,7 +4,8 @@ import successResponse from '../../utils/successRespon';
 import { bookmarkService } from './bookmark.service';
 
 const createBookmark = catchAsync(async (req, res) => {
-  const data = await bookmarkService.createBookmark(req.body);
+  const { _id }: any = req?.user;
+  const data = await bookmarkService.createBookmark(_id, req.body);
 
   successResponse(res, {
     success: true,
@@ -26,7 +27,7 @@ const retrieveUserAllBookmark = catchAsync(async (req, res) => {
   });
 });
 const updateBookmark = catchAsync(async (req, res) => {
-  const { id } = req.params;
+  const { id }: any = req.params;
   const data = await bookmarkService.updateBookmark(id, req.body);
 
   successResponse(res, {
@@ -37,7 +38,7 @@ const updateBookmark = catchAsync(async (req, res) => {
   });
 });
 const deleteBookmark = catchAsync(async (req, res) => {
-  const { id } = req.params;
+  const { id }: any = req.params;
   const data = await bookmarkService.deleteBookmark(id);
 
   successResponse(res, {

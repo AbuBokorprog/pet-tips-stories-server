@@ -22,7 +22,17 @@ const retrieveAllTag = (0, catchAsync_1.catchAsync)(async (req, res) => {
     (0, successRespon_1.default)(res, {
         success: true,
         statusCode: http_status_1.default.CREATED,
-        message: 'Retrieve categories successfully!',
+        message: 'Retrieve tags successfully!',
+        data,
+    });
+});
+const retrieveSpecificTag = (0, catchAsync_1.catchAsync)(async (req, res) => {
+    const { id } = req.params;
+    const data = await tags_service_1.tagsService.retrieveSpecificTag(id);
+    (0, successRespon_1.default)(res, {
+        success: true,
+        statusCode: http_status_1.default.CREATED,
+        message: 'Retrieve tag successfully!',
         data,
     });
 });
@@ -51,4 +61,5 @@ exports.tagsController = {
     retrieveAllTag,
     updateTag,
     deleteTag,
+    retrieveSpecificTag,
 };

@@ -13,6 +13,7 @@ const tags_validation_1 = require("./tags.validation");
 const route = express_1.default.Router();
 route.post('/', (0, auth_1.Auth)(user_utils_1.userRoles.ADMIN), (0, validationRequest_1.validationRequest)(tags_validation_1.TagValidation.createTagValidationSchema), tags_controller_1.tagsController.createTag);
 route.get('/', tags_controller_1.tagsController.retrieveAllTag);
+route.get('/:id', tags_controller_1.tagsController.retrieveSpecificTag);
 route.patch('/:id', (0, auth_1.Auth)(user_utils_1.userRoles.ADMIN, user_utils_1.userRoles.USER), tags_controller_1.tagsController.updateTag);
 route.delete('/:id', (0, auth_1.Auth)(user_utils_1.userRoles.ADMIN, user_utils_1.userRoles.USER), tags_controller_1.tagsController.deleteTag);
 exports.tagsRoute = route;

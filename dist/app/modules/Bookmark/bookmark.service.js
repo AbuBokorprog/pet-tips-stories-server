@@ -7,12 +7,13 @@ exports.bookmarkService = void 0;
 const http_status_1 = __importDefault(require("http-status"));
 const AppError_1 = __importDefault(require("../../errors/AppError"));
 const bookmark_model_1 = require("./bookmark.model");
-const createBookmark = async (payload) => {
+const createBookmark = async (userId, payload) => {
+    payload.userId = userId;
     const data = await bookmark_model_1.bookmarkModel.create(payload);
     return data;
 };
-const retrieveUserAllBookmark = async (id) => {
-    const data = await bookmark_model_1.bookmarkModel.find({ userId: id });
+const retrieveUserAllBookmark = async (userId) => {
+    const data = await bookmark_model_1.bookmarkModel.find({ userId }).populate('id');
     return data;
 };
 const updateBookmark = async (id, payload) => {

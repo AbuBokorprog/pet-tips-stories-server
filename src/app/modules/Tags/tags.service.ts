@@ -2,6 +2,7 @@ import httpStatus from 'http-status';
 import AppError from '../../errors/AppError';
 import { TTag } from './tags.interface';
 import { tagModel } from './tags.model';
+import { postModel } from '../Post/post.model';
 
 const createTag = async (payload: TTag) => {
   const data = await tagModel.create(payload);
@@ -11,6 +12,12 @@ const createTag = async (payload: TTag) => {
 
 const retrieveAllTag = async () => {
   const data = await tagModel.find();
+
+  return data;
+};
+
+const retrieveSpecificTag = async (id: string) => {
+  const data = await tagModel.findById(id);
 
   return data;
 };
@@ -44,4 +51,5 @@ export const tagsService = {
   retrieveAllTag,
   updateTag,
   deleteTag,
+  retrieveSpecificTag,
 };

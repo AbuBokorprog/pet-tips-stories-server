@@ -11,5 +11,7 @@ const bookmarkSchema = new mongoose_1.Schema({
         type: mongoose_1.Schema.Types.ObjectId,
         ref: 'user',
     },
+}, {
+    timestamps: true,
 });
 exports.bookmarkModel = (0, mongoose_1.model)('bookmark', bookmarkSchema);

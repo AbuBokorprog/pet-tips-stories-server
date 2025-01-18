@@ -13,6 +13,7 @@ route.post(
   tagsController.createTag,
 );
 route.get('/', tagsController.retrieveAllTag);
+route.get('/:id', tagsController.retrieveSpecificTag);
 route.patch(
   '/:id',
   Auth(userRoles.ADMIN, userRoles.USER),

@@ -20,10 +20,23 @@ const retrieveAllTag = catchAsync(async (req, res) => {
   successResponse(res, {
     success: true,
     statusCode: httpStatus.CREATED,
-    message: 'Retrieve categories successfully!',
+    message: 'Retrieve tags successfully!',
     data,
   });
 });
+
+const retrieveSpecificTag = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const data = await tagsService.retrieveSpecificTag(id);
+
+  successResponse(res, {
+    success: true,
+    statusCode: httpStatus.CREATED,
+    message: 'Retrieve tag successfully!',
+    data,
+  });
+});
+
 const updateTag = catchAsync(async (req, res) => {
   const { id } = req.params;
   const data = await tagsService.updateTag(id, req.body);
@@ -52,4 +65,5 @@ export const tagsController = {
   retrieveAllTag,
   updateTag,
   deleteTag,
+  retrieveSpecificTag,
 };

@@ -2,19 +2,27 @@ import httpStatus from 'http-status';
 import AppError from '../../errors/AppError';
 import { TBookmark } from './bookmark.interface';
 import { bookmarkModel } from './bookmark.model';
+import { Schema } from 'mongoose';
 
-const createBookmark = async (payload: TBookmark) => {
+const createBookmark = async (
+  userId: Schema.Types.ObjectId,
+  payload: TBookmark,
+) => {
+  payload.userId = userId;
   const data = await bookmarkModel.create(payload);
 
   return data;
 };
 
-const retrieveUserAllBookmark = async (id: string) => {
-  const data = await bookmarkModel.find({ userId: id });
+const retrieveUserAllBookmark = async (userId: Schema.Types.ObjectId) => {
+  const data = await bookmarkModel.find({ userId }).populate('id');
 
   return data;
 };
-const updateBookmark = async (id: string, payload: Partial<TBookmark>) => {
+const updateBookmark = async (
+  id: Schema.Types.ObjectId,
+  payload: Partial<TBookmark>,
+) => {
   const isExistBookmark = await bookmarkModel.findById(id);
 
   if (!isExistBookmark) {
@@ -28,7 +36,7 @@ const updateBookmark = async (id: string, payload: Partial<TBookmark>) => {
 
   return data;
 };
-const deleteBookmark = async (id: string) => {
+const deleteBookmark = async (id: Schema.Types.ObjectId) => {
   const isExistBookmark = await bookmarkModel.findById(id);
 
   if (!isExistBookmark) {

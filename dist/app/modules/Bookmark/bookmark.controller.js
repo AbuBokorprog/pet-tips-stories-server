@@ -9,7 +9,8 @@ const catchAsync_1 = require("../../utils/catchAsync");
 const successRespon_1 = __importDefault(require("../../utils/successRespon"));
 const bookmark_service_1 = require("./bookmark.service");
 const createBookmark = (0, catchAsync_1.catchAsync)(async (req, res) => {
-    const data = await bookmark_service_1.bookmarkService.createBookmark(req.body);
+    const { _id } = req?.user;
+    const data = await bookmark_service_1.bookmarkService.createBookmark(_id, req.body);
     (0, successRespon_1.default)(res, {
         success: true,
         statusCode: http_status_1.default.CREATED,

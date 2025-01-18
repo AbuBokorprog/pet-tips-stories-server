@@ -10,5 +10,5 @@ const categorySchema = new mongoose_1.Schema({
     image: {
         type: String,
     },
-});
+}, { timestamps: true });
 exports.categoryModel = (0, mongoose_1.model)('category', categorySchema);
