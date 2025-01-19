@@ -1,4 +1,4 @@
-import { model, Schema } from 'mongoose';
+import mongoose, { model, Schema } from 'mongoose';
 import { TTag } from './tags.interface';
 
 const tagSchema = new Schema<TTag>(
@@ -11,6 +11,16 @@ const tagSchema = new Schema<TTag>(
     description: {
       type: String,
       required: false,
+    },
+    followers: {
+      type: [mongoose.Schema.Types.ObjectId],
+      ref: 'user',
+      default: [],
+    },
+    following: {
+      type: [mongoose.Schema.Types.ObjectId],
+      ref: 'user',
+      default: [],
     },
   },
   {

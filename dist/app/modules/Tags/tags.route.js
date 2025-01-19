@@ -16,4 +16,6 @@ route.get('/', tags_controller_1.tagsController.retrieveAllTag);
 route.get('/:id', tags_controller_1.tagsController.retrieveSpecificTag);
 route.patch('/:id', (0, auth_1.Auth)(user_utils_1.userRoles.ADMIN, user_utils_1.userRoles.USER), tags_controller_1.tagsController.updateTag);
 route.delete('/:id', (0, auth_1.Auth)(user_utils_1.userRoles.ADMIN, user_utils_1.userRoles.USER), tags_controller_1.tagsController.deleteTag);
+route.patch('/:id/follow', (0, auth_1.Auth)(user_utils_1.userRoles.ADMIN, user_utils_1.userRoles.USER), tags_controller_1.tagsController.followTag);
+route.patch('/:id/unfollow', (0, auth_1.Auth)(user_utils_1.userRoles.ADMIN, user_utils_1.userRoles.USER), tags_controller_1.tagsController.unFollowTag);
 exports.tagsRoute = route;

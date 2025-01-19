@@ -25,4 +25,15 @@ route.delete(
   tagsController.deleteTag,
 );
 
+route.patch(
+  '/:id/follow',
+  Auth(userRoles.ADMIN, userRoles.USER),
+  tagsController.followTag,
+);
+
+route.patch(
+  '/:id/unfollow',
+  Auth(userRoles.ADMIN, userRoles.USER),
+  tagsController.unFollowTag,
+);
 export const tagsRoute = route;
