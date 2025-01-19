@@ -63,8 +63,13 @@ const failedPayment = async () => {
     const template = (0, fs_1.readFileSync)(filePath, 'utf-8');
     return template;
 };
+const retrieveHistory = async () => {
+    const data = await payment_model_1.paymentModel.find();
+    return data;
+};
 exports.paymentServices = {
     paymentInitialize,
     confirmationService,
     failedPayment,
+    retrieveHistory,
 };

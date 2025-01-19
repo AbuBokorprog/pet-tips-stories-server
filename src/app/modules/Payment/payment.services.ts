@@ -90,8 +90,15 @@ const failedPayment = async () => {
   return template;
 };
 
+const retrieveHistory = async () => {
+  const data = await paymentModel.find();
+
+  return data;
+};
+
 export const paymentServices = {
   paymentInitialize,
   confirmationService,
   failedPayment,
+  retrieveHistory,
 };

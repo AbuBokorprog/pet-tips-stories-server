@@ -11,5 +11,6 @@ route.post(
 );
 route.post('/success-payment', paymentController.confirmationController);
 route.post('/failed-payment', paymentController.PaymentFailed);
+route.get('/history', paymentController.retrieveHistory);
 
 export const paymentRoute = route;

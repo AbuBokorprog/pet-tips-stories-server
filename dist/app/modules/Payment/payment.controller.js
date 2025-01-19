@@ -27,8 +27,18 @@ const PaymentFailed = (0, catchAsync_1.catchAsync)(async (req, res) => {
     const result = await payment_services_1.paymentServices.failedPayment();
     res.send(result);
 });
+const retrieveHistory = (0, catchAsync_1.catchAsync)(async (req, res) => {
+    const data = await payment_services_1.paymentServices.retrieveHistory();
+    (0, successRespon_1.default)(res, {
+        success: true,
+        statusCode: http_status_1.default.OK,
+        message: 'Payment history.',
+        data,
+    });
+});
 exports.paymentController = {
     confirmationController,
     PaymentFailed,
     paymentInitialize,
+    retrieveHistory,
 };

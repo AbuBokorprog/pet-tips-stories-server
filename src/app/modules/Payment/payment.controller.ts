@@ -36,8 +36,20 @@ const PaymentFailed = catchAsync(async (req, res) => {
   res.send(result);
 });
 
+const retrieveHistory = catchAsync(async (req, res) => {
+  const data = await paymentServices.retrieveHistory();
+
+  successResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'Payment history.',
+    data,
+  });
+});
+
 export const paymentController = {
   confirmationController,
   PaymentFailed,
   paymentInitialize,
+  retrieveHistory,
 };
