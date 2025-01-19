@@ -2,8 +2,8 @@ import httpStatus from 'http-status';
 import AppError from '../../errors/AppError';
 import { TTag } from './tags.interface';
 import { tagModel } from './tags.model';
-import { postModel } from '../Post/post.model';
 import { startSession, Types } from 'mongoose';
+import { userModel } from '../User/user.model';
 
 const createTag = async (payload: TTag) => {
   const data = await tagModel.create(payload);
@@ -12,7 +12,7 @@ const createTag = async (payload: TTag) => {
 };
 
 const retrieveAllTag = async () => {
-  const data = await tagModel.find();
+  const data = await tagModel.find().populate('followers');
 
   return data;
 };
@@ -52,9 +52,9 @@ const followTag = async (
   followedId: Types.ObjectId,
 ) => {
   const session = await startSession();
-  const isExistTag = await tagModel.findById(followerId);
+  const isExistUser = await userModel.findById(followerId);
 
-  const isAlreadyFollow = isExistTag?.following.includes(followedId);
+  const isAlreadyFollow = isExistUser?.tagFollowing.includes(followedId);
 
   if (isAlreadyFollow) {
     throw new AppError(httpStatus.ALREADY_REPORTED, 'Already following!');
@@ -66,10 +66,10 @@ const followTag = async (
   try {
     session.startTransaction();
     // * who wants to follow.
-    const data = await tagModel.findByIdAndUpdate(
+    const data = await userModel.findByIdAndUpdate(
       followerId,
       {
-        $addToSet: { following: followedId },
+        $addToSet: { tagFollowing: followedId },
       },
       { new: true, runValidators: true, session },
     );
@@ -101,9 +101,9 @@ const unFollowTag = async (
 ) => {
   const session = await startSession();
 
-  const isExistTag = await tagModel.findById(followerId);
+  const isExistUser = await userModel.findById(followerId);
 
-  const isAlreadyFollow = isExistTag?.following.includes(followedId);
+  const isAlreadyFollow = isExistUser?.tagFollowing.includes(followedId);
 
   if (!isAlreadyFollow) {
     throw new AppError(
@@ -118,10 +118,10 @@ const unFollowTag = async (
   try {
     session.startTransaction();
     // *followerId is Who wants to unfollow.
-    const data = await tagModel.findByIdAndUpdate(
+    const data = await userModel.findByIdAndUpdate(
       followerId,
       {
-        $pull: { following: followedId },
+        $pull: { tagFollowing: followedId },
       },
       { new: true, runValidators: true, session },
     );

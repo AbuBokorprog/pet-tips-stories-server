@@ -48,6 +48,11 @@ const userSchema = new mongoose_1.Schema({
         ref: 'user',
         default: [],
     },
+    tagFollowing: {
+        type: [mongoose_1.default.Schema.Types.ObjectId],
+        ref: 'tags',
+        default: [],
+    },
     posts: {
         type: [mongoose_1.default.Schema.Types.ObjectId],
         ref: 'post',

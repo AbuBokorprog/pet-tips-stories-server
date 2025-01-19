@@ -23,6 +23,11 @@ const userSchema = new Schema<IUser>(
       ref: 'user',
       default: [],
     },
+    tagFollowing: {
+      type: [mongoose.Schema.Types.ObjectId],
+      ref: 'tags',
+      default: [],
+    },
     posts: {
       type: [mongoose.Schema.Types.ObjectId],
       ref: 'post',

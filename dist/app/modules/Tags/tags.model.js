@@ -40,11 +40,6 @@ const tagSchema = new mongoose_1.Schema({
         ref: 'user',
         default: [],
     },
-    following: {
-        type: [mongoose_1.default.Schema.Types.ObjectId],
-        ref: 'user',
-        default: [],
-    },
 }, {
     timestamps: true,
 });

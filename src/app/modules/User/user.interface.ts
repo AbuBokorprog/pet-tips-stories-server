@@ -10,6 +10,7 @@ export interface IUser {
   isPremium: boolean; // Premium subscription status
   followers: Types.ObjectId[]; // Array of user IDs
   following: Types.ObjectId[]; // Array of user IDs
+  tagFollowing: Types.ObjectId[]; // Array of user IDs
   posts: Types.ObjectId[]; // Array of post IDs created by the user
   subscriptionExpiresAt?: Date; // Optional date for premium expiration
   paymentHistory: Types.ObjectId[]; // Array of payment IDs
